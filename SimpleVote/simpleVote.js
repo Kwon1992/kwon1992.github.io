@@ -1,6 +1,5 @@
-let contractAddress = '0xF41Feb50Cc765A6d0c444f363999d5b73f070c02';
-let abi =
-[
+let contractAddress = '0x19783751871733b4256dc845507b1a51163ee5f1';
+let abi = [
 	{
 		"constant": false,
 		"inputs": [],
@@ -303,11 +302,11 @@ window.addEventListener('load', function() {
 });
 
 function startApp() {
-  simpleVoteContract = web3.eth.contract(abi);
-  simpleVote = simpleVoteContract.at(contractAddress);
-  document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
+  simpleVoteContract = web3.eth.contract(abi); // 배포한 Contract와 연결 - ABI 이용
+  simpleVote = simpleVoteContract.at(contractAddress); // 배포한 Contract와 연결 - Contract Address 이용
 
-  web3.eth.getAccounts(function(e,r){
+	document.getElementById('contractAddr').innerHTML = getLink(contractAddress); // contract와 account를 조회할 수 있는 ethersacn.io 하이퍼링크
+  web3.eth.getAccounts(function(e,r){ // contract와 account를 조회할 수 있는 ethersacn.io 하이퍼링크
   document.getElementById('accountAddr').innerHTML = getLink(r[0]);
   accountAddress = r[0];
   getValue();
@@ -370,7 +369,7 @@ function voteForCandidate() {
   $("#candidate").val("");
   $("#vote-tokens").val("");
 
-  simpleVote.vote(candidateName, voteTokens, function (e, r){
+  simpleVote.vote(candidateName, voteTokens, function (e, r){ // contract의 vote함수 호출..
     getCandidateInfo();
   });
 }
@@ -380,8 +379,8 @@ function buyTokens() {
   let price = tokensToBuy * tokenPrice;
   $("#buy-msg").html("Purchase order has been submitted. Please wait.");
 
-  simpleVote.buy({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}, function(v) {
-    web3.eth.getBalance(simpleVote.address, function(e, r) {
+  simpleVote.buy({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}, function(v) { // contract의 buy함수 호출 & from 계좌로부터 받은 value를 contract에 전송
+    web3.eth.getBalance(simpleVote.address, function(e, r) { // contract가 보유한 ether 조회
     $("#contract-balance").html(web3.fromWei(r.toString()) + " ETH");
    });
   });
