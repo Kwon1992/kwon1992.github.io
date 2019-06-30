@@ -13,71 +13,29 @@
   <div class="row margin-top-3">
    <div class="col-sm-12">
     <ul>
-      <li>Contract Address : <span id="contractAddr"></span></li>
+      <li>Controller Address : <span id="controllerAddr"></span></li>
+      <p>
+      <li>ButterToken Address : <span id="butterAddr"></span></li>
+      </p>
+      <p>
+      <li>BakingMastery Address : <span id="bakingMasteryAddr"></span></li>
+      </p>
       <p>
       <li>Account Address : <span id="accountAddr"></span></li>
       </p>
       <li>Holding ETH Count : <span id="ethValue"></span></li>
       <p></p>
-      <li>Holding Token Count : <span id="tokenValue"></span></li>
+      <li>Holding Butter Token Count : <span id="butterTokenValue"></span></li>
+      <li>Holding Baking Mastery Token Count : <span id="bakingTokenValue"></span></li>
     </ul>
    </div>
   </div>
   <div class="row margin-top-3">
    <div class="col-sm-7">
-    <h2>Candidates</h2>
-    <div class="table-responsive">
-     <table class="table table-bordered">
-      <thead>
-       <tr>
-        <th>Candidate</th>
-        <th>Votes</th>
-        <th>button</th>
-       </tr>
-      </thead>
-      <!--tbody id="candidate-rows"-->
-      <tbody>
-        <tr>
-         <th>Monday</th>
-         <th id="day_votes_1"></th>
-         <th><input type="button" value = "vote"  onclick="voteForCandidate(1); return false;"></th>
-        </tr>
-        <tr>
-         <th>Tuesday</th>
-         <th id="day_votes_2"></th>
-         <th><input type="button" value = "vote"  onclick="voteForCandidate(2); return false;"></th>
-        </tr>
-        <tr>
-         <th>Wednesday</th>
-         <th id="day_votes_3"></th>
-         <th><input type="button" value = "vote"  onclick="voteForCandidate(3); return false;"></th>
-        </tr>
-        <tr>
-         <th>Thursday</th>
-         <th id="day_votes_4"></th>
-         <th><input type="button" value = "vote"  onclick="voteForCandidate(4); return false;"></th>
-        </tr>
-        <tr>
-         <th>Friday</th>
-         <th id="day_votes_5"></th>
-         <th><input type="button" value = "vote"  onclick="voteForCandidate(5); return false;"></th>
-        </tr>
-        <tr>
-         <th>Saturday</th>
-         <th id="day_votes_6"></th>
-         <th><input type="button" value = "vote"  onclick="voteForCandidate(6); return false;"></th>
-        </tr>
-        <tr>
-         <th>Sunday</th>
-         <th id="day_votes_7"></th>
-         <th><input type="button" value = "vote"  onclick="voteForCandidate(7); return false;"></th>
-        </tr>
-      </tbody>
-     </table>
-    </div>
+    <h2>Tokens</h2>
    </div>
    <div class="col-sm-offset-1 col-sm-4">
-    <h2>Tokens</h2>
+    <h2>ButterTokens</h2>
     <div class="table-responsive">
      <table class="table table-bordered">
       <tr>
@@ -86,15 +44,15 @@
       </tr>
       <tr>
        <td>Total Token Count</td>
-       <td id="tokens-total"></td>
+       <td id="butter-tokens-total"></td>
       </tr>
       <tr>
        <td>Sellable Token Count</td>
-       <td id="tokens-sellable"></td>
+       <td id="butter-tokens-sellable"></td>
       </tr>
       <tr>
        <td>Price Per Token</td>
-       <td id="token-cost"></td>
+       <td id="butter-token-cost"></td>
       </tr>
       <tr>
        <td>Token Count In The Contract</td>
@@ -102,6 +60,25 @@
       </tr>
      </table>
     </div>
+
+    <div class="col-sm-offset-1 col-sm-4">
+      <h2>BakingTokens</h2>
+      <div class="table-responsive">
+       <table class="table table-bordered">
+        <tr>
+         <th>Tokens Info</th>
+         <th>Value</th>
+        </tr>
+        <tr>
+         <td>Total Token Count</td>
+         <td id="baking-tokens-total"></td>
+        </tr>
+        <tr>
+         <td>Sellable Token Count</td>
+         <td id="baking-tokens-sellable"></td>
+        </tr>
+       </table>
+      </div>
    </div>
   </div>
   <hr>
@@ -109,7 +86,7 @@
 
    <div class="col-sm-offset-1 col-sm-4">
     <div class="col-sm-12 form">
-     <h2>Purchase Tokens</h2>
+     <h2>Purchase Butter Tokens</h2>
      <div id="buy-msg"></div>
      <input type="text" id="buy" class="col-sm-8" placeholder="Number of tokens to buy"/>
      <a href="#" onclick="buyTokens(); return false;" class="btn btn-primary">Buy</a>
