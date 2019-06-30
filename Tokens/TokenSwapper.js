@@ -807,8 +807,8 @@ function buyTokens() {
 
   butterToken.buyToken({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}, function(v) {
     web3.eth.getBalance(butterToken.address, function(e, r) {
-    $("#butter-contract-balance").html(web3.fromWei(r.toString()) + " ETH");
-   });
+        $("#butter-contract-balance").html(web3.fromWei(r.toString()) + " ETH");
+       });
   });
 }
 
@@ -818,5 +818,7 @@ function switchTokens() {
   let price = parseInt(tokensToSwitch);
   $("#switch-msg").html("Switch order has been submitted. Please wait.");
 
-  tokenController.convertTokens(price); // call TokenConvert
+  tokenController.convertTokens(price, function(e,r){
+    document.getElementById('bakingTokenValue').innerHTML = r.toString();
+  });// call TokenConvert
 }
