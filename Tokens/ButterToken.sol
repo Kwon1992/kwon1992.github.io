@@ -105,6 +105,10 @@ contract ButterToken { //ButterToken == GTK
         return balances[msg.sender];
     }
 
+    function getTokenPrice() view public returns(uint){
+        return tokenPrice;
+    }
+
     function viewOwner() external view returns (address) {
         return owner;
     }

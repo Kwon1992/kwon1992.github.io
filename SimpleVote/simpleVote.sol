@@ -7,16 +7,16 @@ contract simpleVote {
         uint tokenBought;
     }
     
-    mapping (address => voter) public voters; // ÅõÇ¥ÀÚµéÀÇ ÁÖ¼Ò
-    mapping (bytes32 => uint) public votesReceived; // ÈÄº¸ÀÚ µæÇ¥ ¼ö
+    mapping (address => voter) public voters; // ï¿½ï¿½Ç¥ï¿½Úµï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
+    mapping (bytes32 => uint) public votesReceived; // ï¿½Äºï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½
     
-    bytes32[] public candidateNames; // ÈÄº¸ÀÚ ¹è¿­
+    bytes32[] public candidateNames; // ï¿½Äºï¿½ï¿½ï¿½ ï¿½è¿­
     
-    uint public totalToken; // ÅäÅ« ÃÑ °³¼ö
-    uint public balanceTokens; // ³²Àº ÅäÅ« ¼ö
-    uint public tokenPrice; // ÅäÅ« °¡°Ý ex) 0.01 ether
+    uint public totalToken; // ï¿½ï¿½Å« ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    uint public balanceTokens; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å« ï¿½ï¿½
+    uint public tokenPrice; // ï¿½ï¿½Å« ï¿½ï¿½ï¿½ï¿½ ex) 0.01 ether
     
-    constructor(uint _totalToken, uint _tokenPrice) public // Tx »ý¼º½Ã È£ÃâÀÚ
+    constructor(uint _totalToken, uint _tokenPrice) public // Tx ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½
     {
         totalToken = _totalToken;
         balanceTokens = _totalToken;
@@ -62,7 +62,7 @@ contract simpleVote {
         voters[msg.sender].tokenBought -= tokenCountForVote;
     }
     
-    function getCandidateIndex(bytes32 candidate) view public returns (uint) // ÇØ´ç ÈÄº¸ÀÚÀÇ index ¹ÝÈ¯
+    function getCandidateIndex(bytes32 candidate) view public returns (uint) // ï¿½Ø´ï¿½ ï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½ index ï¿½ï¿½È¯
     {
         for(uint i=0; i < candidateNames.length; i++)
         {
@@ -72,10 +72,10 @@ contract simpleVote {
             }
         }
         
-        return uint(-1); // ÈÄº¸ÀÚ°¡ ¾ø´Â °æ¿ì -1 ¹ÝÈ¯
+        return uint(-1); // ï¿½Äºï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ -1 ï¿½ï¿½È¯
     }
     
-    function getCandidatesInfo() view public returns (bytes32[]) // ÈÄº¸ÀÚ ÀÌ¸§µé ¹ÝÈ¯
+    function getCandidatesInfo() view public returns (bytes32[]) // ï¿½Äºï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
     {
         return candidateNames;
     }

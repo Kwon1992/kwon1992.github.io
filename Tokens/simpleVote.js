@@ -732,14 +732,14 @@ function getTokenInfo() {
     tokenPrice = parseFloat(web3.fromWei(r.toString()));
     document.getElementById('butter-token-cost').innerHTML = tokenPrice + "ETH";
   });
-  web3.eth.getBalance(butterToken.address, function(e,v) {
+  butterToken.getETH(function(e,v) {
     document.getElementById('butter-contract-balance').innerHTML = web3.fromWei(v.toString()) + "ETH";
   });
 
-  bakingMastery.totalSupply(function(e,r){
+  bakingMastery.getInitialSupply(function(e,r){
     document.getElementById('baking-tokens-total').innerHTML = r.toString();
   });
-  bakingMastery.totalSupply(function(e,r){
+  bakingMastery.getTotalSupply(function(e,r){
     document.getElementById('baking-tokens-sellable').innerHTML = r.toString();
   });
 }
