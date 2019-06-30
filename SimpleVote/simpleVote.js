@@ -376,7 +376,7 @@ function voteForCandidate() {
 
 function buyTokens() {
   let tokensToBuy = $("#buy").val();
-  let price = tokensToBuy * tokenPrice;
+  let price = tokensToBuy * tokenPrice; // 10000 * 1000000000
   $("#buy-msg").html("Purchase order has been submitted. Please wait.");
 
   simpleVote.buy({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}, function(v) { // contract의 buy함수 호출 & from 계좌로부터 받은 value를 contract에 전송

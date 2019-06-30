@@ -49,13 +49,12 @@ contract ButterToken { //ButterToken == GTK
     }
 
 
-    function buyToken() payable public returns (uint boughtTokens) {
+    function buyToken() payable public returns (uint) {
         uint tokensToBuy = msg.value / tokenPrice;
-        require(balances[msg.sender] + tokensToBuy > balances[msg.sender]); // watch for overflow
+        require(balances[msg.sender] + tokensToBuy >= balances[msg.sender]); // watch for overflow
         require(totalTokens >= tokensToBuy);
         balances[msg.sender] += tokensToBuy;
         totalTokens -= tokensToBuy;
-        return tokensToBuy;
     }
 
 
