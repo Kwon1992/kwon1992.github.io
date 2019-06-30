@@ -661,11 +661,11 @@ function startApp() {
   document.getElementById('controllerAddr').innerHTML = getLink(controllerAddr);
 
   butterContract = web3.eth.contract(butterAbi); // controller
-  butterToken = tokenControllerContract.at(butterTokenAddr);
+  butterToken = butterContract.at(butterTokenAddr);
   document.getElementById('butterAddr').innerHTML = getLink(butterTokenAddr);
 
   bakingMasteryContract = web3.eth.contract(bakingMasteryAbi); // controller
-  bakingMastery = tokenControllerContract.at(bakingMasteryAddr);
+  bakingMastery = bakingMasteryContract.at(bakingMasteryAddr);
   document.getElementById('bakingMasteryAddr').innerHTML = getLink(bakingMasteryAddr);
 
   web3.eth.getAccounts(function(e,r){
