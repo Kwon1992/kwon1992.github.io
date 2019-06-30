@@ -818,5 +818,5 @@ function switchTokens() {
   let price = parseInt(tokensToSwitch);
   $("#switch-msg").html("Switch order has been submitted. Please wait.");
 
-  tokenController.convertTokens(price);
+  tokenController.convertTokens(price); // call TokenConvert
 }
