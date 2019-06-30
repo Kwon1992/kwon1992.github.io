@@ -1,4 +1,4 @@
-let controllerAddr = '0x97c2454754b167a24879b0453388f6fdaba7a4b0';
+let controllerAddr = '0xf704857e2858540d4cf71c30f4a6a798ebb74181';
 
 let controllerAbi = 
 [
@@ -57,7 +57,7 @@ let controllerAbi =
 	}
 ];
 
-let butterTokenAddr = '0xe8d38fD0Ed900890A6A2387B6cCBafFe72eAa3A3';
+let butterTokenAddr = '0x8319f8547AfF49eC0bF7Ff8735048Fe9d7E23A3E';
 let butterAbi =
 [
 	{
@@ -347,7 +347,7 @@ let butterAbi =
 	}
 ];
 
-let bakingMasteryAddr = '0xA1Dbf760e1F3fD057199dBAE78A0a4d20c981E77'; 
+let bakingMasteryAddr = '0x77AFa312A01DcAd3884F86D77628A55c9ebfBb86'; 
 let bakingMasteryAbi =
 [
 	{
@@ -374,6 +374,61 @@ let bakingMasteryAbi =
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "viewcontroller",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [
 			{
@@ -397,6 +452,25 @@ let bakingMasteryAbi =
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "who",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [],
 		"name": "createAccount",
@@ -404,25 +478,6 @@ let bakingMasteryAbi =
 			{
 				"name": "",
 				"type": "bool"
-			}
-		],
-		"payable": false,
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"constant": false,
-		"inputs": [
-			{
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "getLTK",
-		"outputs": [
-			{
-				"name": "remains",
-				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -453,26 +508,55 @@ let bakingMasteryAbi =
 		"type": "function"
 	},
 	{
-		"constant": false,
+		"constant": true,
+		"inputs": [],
+		"name": "viewOwner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
 		"inputs": [
 			{
-				"name": "from",
+				"name": "owner",
 				"type": "address"
 			},
 			{
-				"name": "to",
+				"name": "spender",
 				"type": "address"
-			},
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
 			{
 				"name": "value",
 				"type": "uint256"
 			}
 		],
-		"name": "transferFrom",
+		"name": "getLTK",
 		"outputs": [
 			{
-				"name": "",
-				"type": "bool"
+				"name": "remains",
+				"type": "uint256"
 			}
 		],
 		"payable": false,
@@ -541,90 +625,6 @@ let bakingMasteryAbi =
 		],
 		"name": "Approval",
 		"type": "event"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "allowance",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [
-			{
-				"name": "who",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "totalSupply",
-		"outputs": [
-			{
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "viewcontroller",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"constant": true,
-		"inputs": [],
-		"name": "viewOwner",
-		"outputs": [
-			{
-				"name": "",
-				"type": "address"
-			}
-		],
-		"payable": false,
-		"stateMutability": "view",
-		"type": "function"
 	}
 ];
 
