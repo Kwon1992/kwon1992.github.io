@@ -1,4 +1,4 @@
-let controllerAddr = '0x313689f16fe102d8f6432648f8c6e99105ed84f0';
+let controllerAddr = '0xe4a667b2cc5459118366da679a9df50d308c0e35';
 
 let controllerAbi = 
 [
@@ -57,7 +57,7 @@ let controllerAbi =
 	}
 ];
 
-let butterTokenAddr = '0x2b02DAc35f5f383Da9F53fae67350A66B516f7Ad';
+let butterTokenAddr = '0xC430AcBD413f3D32Bac74E0ceBb34AAd8491cDf5';
 let butterAbi =
 [
 	{
@@ -315,6 +315,20 @@ let butterAbi =
 	{
 		"constant": true,
 		"inputs": [],
+		"name": "getTokenPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
 		"name": "getTotalSupply",
 		"outputs": [
 			{
@@ -356,7 +370,7 @@ let butterAbi =
 	}
 ];
 
-let bakingMasteryAddr = '0x65AcdFFc3Fb656f7c097076811202af90B77ccF3'; 
+let bakingMasteryAddr = '0x74E72DE0a29b4F78496aA997a9602DA7B98fC4Fd'; 
 let bakingMasteryAbi =
 [
 	{
