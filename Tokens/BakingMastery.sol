@@ -90,15 +90,15 @@ contract BakingMastery{ // LTK == BakingMastery
     }
 
     // VIEWERS
-    function getInitialSupply() external view returns (uint256) {
+    function getInitialSupply() external view returns (uint) {
         return initialTokens;
     }
 
-    function getTotalSupply() external view returns (uint256) {
+    function getTotalSupply() external view returns (uint) {
         return totalTokens;
     }
 
-    function getBalanceOf() external view returns (uint256) {
+    function getBalanceOf() external view returns (uint) {
         return balances[msg.sender];
     }
 
