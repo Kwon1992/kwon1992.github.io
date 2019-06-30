@@ -715,7 +715,6 @@ function getValue() {
   getEther();
   getToken();
   getTokenInfo();
-  getCandidateInfo();
 }
 
 function getEther() {
@@ -766,7 +765,7 @@ function buyTokens() {
 
   butterToken.buyToken({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}, function(v) {
     web3.eth.getBalance(butterToken.address, function(e, r) {
-    $("#contract-balance").html(web3.fromWei(r.toString()) + " ETH");
+    $("#butter-contract-balance").html(web3.fromWei(r.toString()) + " ETH");
    });
   });
 }
