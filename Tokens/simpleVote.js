@@ -1,4 +1,4 @@
-let controllerAddr = '0x9dd930c8e69d3134a6499b24946de1e6caf10371';
+let controllerAddr = '0x15a3a31e4e1cd16d9e16c12d87efb9bbd7db8438';
 
 let controllerAbi = 
 [
@@ -57,7 +57,7 @@ let controllerAbi =
 	}
 ];
 
-let butterTokenAddr = '0xa885Ea49182e398E2ca82ccbd24231e623cBc03d';
+let butterTokenAddr = '0x87d9Ac7e1F3BD1cFf32bCD753f4bF6BD6e9B2434';
 let butterAbi =
 [
 	{
@@ -167,6 +167,20 @@ let butterAbi =
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "initialTokens",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [
 			{
@@ -187,6 +201,34 @@ let butterAbi =
 		],
 		"payable": false,
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalTokens",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "tokenPrice",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -370,7 +412,7 @@ let butterAbi =
 	}
 ];
 
-let bakingMasteryAddr = '0x5CCA0F6b80B48eDe5cbbE7B270eD831598FB141f'; 
+let bakingMasteryAddr = '0xD21B582fFb58b82995C3382A73DB31984Ec78891'; 
 let bakingMasteryAbi =
 [
 	{
