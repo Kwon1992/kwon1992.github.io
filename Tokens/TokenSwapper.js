@@ -1,4 +1,4 @@
-let controllerAddr = '0x15a3a31e4e1cd16d9e16c12d87efb9bbd7db8438';
+let controllerAddr = '0x3b6571a63acc2d146bfa8fe90ee143a480ee11a4';
 
 let controllerAbi = 
 [
@@ -57,7 +57,7 @@ let controllerAbi =
 	}
 ];
 
-let butterTokenAddr = '0x87d9Ac7e1F3BD1cFf32bCD753f4bF6BD6e9B2434';
+let butterTokenAddr = '0xd81066E39d1caEcce3f47d888FC63d428076b76A';
 let butterAbi =
 [
 	{
@@ -412,7 +412,7 @@ let butterAbi =
 	}
 ];
 
-let bakingMasteryAddr = '0xD21B582fFb58b82995C3382A73DB31984Ec78891'; 
+let bakingMasteryAddr = '0xA36D5Bcdf1bb71210440EAFafef5cfD79d5778A6'; 
 let bakingMasteryAbi =
 [
 	{
