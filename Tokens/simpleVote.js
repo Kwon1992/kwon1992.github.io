@@ -785,10 +785,10 @@ function getTokenInfo() {
   });
   butterToken.getTokenPrice(function(e,r){
     tokenPrice = parseFloat(web3.fromWei(r.toString()));
-    document.getElementById('butter-token-cost').innerHTML = tokenPrice + "ETH";
+    document.getElementById('butter-token-cost').innerHTML = tokenPrice + " ETH";
   });
   butterToken.getETH(function(e,v) {
-    document.getElementById('butter-contract-balance').innerHTML = web3.fromWei(v.toString()) + "ETH";
+    document.getElementById('butter-contract-balance').innerHTML = web3.fromWei(v.toString()) + " ETH";
   });
 
   bakingMastery.getInitialSupply(function(e,r){
@@ -815,8 +815,8 @@ function buyTokens() {
 
 function switchTokens() {
   let tokensToSwitch = $("#switch").val();
-  let price = tokensToSwitch;
+  let price = paserInt(tokensToSwitch);
   $("#switch-msg").html("Switch order has been submitted. Please wait.");
 
-  tokenController.convertTokens({value: price, from: web3.eth.accounts[0]});
+  tokenController.convertTokens(price);
 }
