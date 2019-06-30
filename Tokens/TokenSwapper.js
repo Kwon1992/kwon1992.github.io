@@ -819,6 +819,5 @@ function switchTokens() {
   $("#switch-msg").html("Switch order has been submitted. Please wait.");
 
   tokenController.convertTokens(price, function(e,r){
-    document.getElementById('bakingTokenValue').innerHTML = r.toString();
   });// call TokenConvert
 }

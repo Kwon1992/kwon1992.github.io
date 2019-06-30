@@ -49,7 +49,7 @@ contract BakingMastery{ // LTK == BakingMastery
 
     // convert LTK to GTK [1:1 ratio]
     function convertLTKtoGTK(uint256 amount, address user) public onlyOwner returns (bool) {
-        require(balances[user] > amount);
+        require(balances[user] >= amount);
         balances[user] -= amount;
         return true;
     }
