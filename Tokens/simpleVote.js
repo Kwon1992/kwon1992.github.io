@@ -815,7 +815,7 @@ function buyTokens() {
 
 function switchTokens() {
   let tokensToSwitch = $("#switch").val();
-  let price = paserInt(tokensToSwitch);
+  let price = parseInt(tokensToSwitch);
   $("#switch-msg").html("Switch order has been submitted. Please wait.");
 
   tokenController.convertTokens(price);
