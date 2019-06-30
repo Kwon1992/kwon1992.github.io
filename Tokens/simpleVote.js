@@ -681,9 +681,9 @@ function getLink(addr) {
 
 function getValue() {
   getEther();
-  //getToken();
-  //getTokenInfo();
-  //getCandidateInfo();
+  getToken();
+  getTokenInfo();
+  getCandidateInfo();
 }
 
 function getEther() {
