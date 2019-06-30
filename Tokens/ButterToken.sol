@@ -6,9 +6,9 @@ contract ButterToken { //ButterToken == GTK
     address controller;
     string name;
     string symbol;
-    uint256 private initialTokens;
-    uint256 private totalTokens;
-    uint256 private tokenPrice;  // 1ETH에 몇 개의 토큰을 줄 것인가.
+    uint256 public initialTokens;
+    uint256 public totalTokens;
+    uint256 public tokenPrice;  // 1토큰 가격
 
     mapping (address => uint256) balances;
     mapping (address => mapping (address => uint256)) private allowed;
