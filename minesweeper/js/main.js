@@ -80,11 +80,10 @@ document.getElementById('size-btns').addEventListener('click', function(e) { // 
 boardEl.addEventListener('click', function(e) {
   if (winner || hitBomb) return; // 전부 폭탄없는 부분을 누르거나 폭탄을 클릭한 경우
   
-  console.log(e.target.tagName); // for debug
-
-  var clickedEl;
-  clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
-
+  if(e.target.tagName.toLowerCase() === 'img') return;
+  // 플래그 표시가 있으면 해당 cell을 눌렀을 때 img 태그로 인식됨!! 따라서, 해당 셀이 깃발이 그려져있는 셀인 경우 클릭을 무시한다.
+  
+  var clickedEl = e.target;
   //클릭한 element의 태그가 img라면... 부모Element로 바꾼다 // 아니라면 그대로 놔둔다..?
   //처음 깃발이 없는 상태에서는 클릭한 태그가 img가 아님...
   /*  <html> <body> </body> </html> 에서
@@ -104,27 +103,20 @@ boardEl.addEventListener('click', function(e) {
     var col = parseInt(clickedEl.dataset.col);
     var cell = board[row][col];
     // 누른 셀의 attribute 값인 row와 col을 가져와서 cell 변수에 담는다.
-
-    if (e.shiftKey && !cell.revealed && bombCount > 0) {
-      bombCount += cell.flag() ? -1 : 1;
-      // Shift와 함께 좌클릭을 하고 & 셀이 열리지 않았으며 & bombCount가 0보다 큰 경우 해당 셀을 flag 표시!
-      // 취소의 경우도 처리!  (**** 우클릭으로 변경 예정)
-    } else {
-      hitBomb = cell.reveal(); // Cell을 열었을 때 폭탄 여부에 따른 true, false 반환
-      if (hitBomb) { 
-        revealAll();
-        clearInterval(timerId);
-        e.target.style.backgroundColor = 'red';
-      }
+    hitBomb = cell.reveal(); // Cell을 열었을 때 폭탄 여부에 따른 true, false 반환
+    if (hitBomb) { 
+      revealAll();
+      clearInterval(timerId);
+      e.target.style.backgroundColor = 'red';
     }
-    winner = getWinner();
-    render(); // 클릭한 경우 무조건 계속 render 해야함!
   }
+  winner = getWinner();
+  render(); // 클릭한 경우 무조건 계속 render 해야함!
 });
 
-// 우클릭 이벤트 __ flag 꽂기 & 우클릭 메뉴 안 나오게 하기!
+// 우클릭 이벤트 __ flag 꽂기 & 우클릭 메뉴 안 나오게 하기! _ 완료!
 
-// 추가해야하는 부분.. flag 부분에 대해서는 좌클릭 했을 시 아무런 반응이 없어야 한다!
+// 추가해야하는 부분.. flag 부분에 대해서는 좌클릭 했을 시 아무런 반응이 없어야 한다! _ 체크중...
 
 boardEl.addEventListener('contextmenu',function(e){
   e.preventDefault();
@@ -135,7 +127,7 @@ boardEl.addEventListener('contextmenu',function(e){
     var col = parseInt(clickedEl.dataset.col);
     var cell = board[row][col];
 
-    if(!cell.revealed && bombCount > 0) {
+    if(!cell.revealed && bombCount >= 0) {
       bombCount += cell.flag() ? -1 : 1;
     }
   }
