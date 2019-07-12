@@ -286,14 +286,14 @@ function addBombs() { // 랜덤하게 폭탄 설치 core Function #4 _ updating.
     if(currentTotalBombs === sizeLookup[`${size}`].totalBombs) {bombCoordList  += "["+row+","+col+"]"}
     else {bombCoordList  += ",["+row+","+col+"]"}
     // 추가된 폭탄위치를 저장하는 위치 나열하는 string 제작
-
-    currentCell.calcAdjBombs();
-    // 인접 cell에 폭탄 갯수 추가
     
     if (!currentCell.isBomb){
       currentCell.isBomb = true;
       currentTotalBombs -= 1;
     }
+    currentCell.calcAdjBombs();
+    // 인접 cell에 폭탄 갯수 추가
+
   }
 
   console.log(bombCoordList); // 실제 위치를 확인해보기 위한 log 출력
