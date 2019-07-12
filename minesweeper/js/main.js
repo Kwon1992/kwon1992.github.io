@@ -122,6 +122,7 @@ boardEl.addEventListener('click', function(e) {
 // 우클릭 이벤트 __ flag 꽂기 & 우클릭 메뉴 안 나오게 하기!
 
 boardEl.addEventListener('contextmenu',function(e){
+  e.preventDefault();
   var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
   if(clickedEl.classList.contains('game-cell')) {
     if (!timerId) setTimer(); 
