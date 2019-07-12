@@ -58,7 +58,7 @@ class  Cell {
         if(this.adjBombs === numOfFlags) {
             adjCells.forEach(function(cell) {
                 cell.reveal();
-                if(cell.flagged === false && cell.isBomb == true  && checker === false) {
+                if(cell.flagged === false && cell.isBomb === true  && checker === false) {
                     checker = true;
                 }
             });
@@ -106,6 +106,7 @@ class  Cell {
 
     reveal() {
         if (this.revealed && !hitBomb) return;
+        if (this.flagged) return;
         // 특정 Cell의 revealed 초기값은 false 이다. (즉, 열리지 않음)
         // 해당 셀이 열렸고 폭탄이 아니라면 좌클릭/우클릭 시 아무일도 일어나지 않는다.
         

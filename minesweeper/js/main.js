@@ -5,7 +5,8 @@
  * 깃발 갯수와 열린 부분의 폭탄 숫자가 같을 때 좌클릭하면 자동으로 인접 셀 열어줌 -> 만약 깃발이 잘못된 경우 게임 오버처리. (MAIN, CELL.js)
  * 모바일 롱 프레스 인식 - 약 0.5초 누르면 플래그 on/off
  * 
- * 할 일?
+ * 버그 : easy 모드에서 셀을 전부 열지 않았는데 게임이 끝나버리는 현상 발생... - 수정 완료!
+ * 버그2 : 플래그를 정해진 폭탄 개수 이상 찍을 수 있는 현상. - 수정 완료!
  */
 
 
@@ -102,10 +103,6 @@ document.getElementById('size-btns').addEventListener('click', function(e) { // 
 boardEl.addEventListener('click', function(e) {
   if (winner || hitBomb) return; // 전부 폭탄없는 부분을 누르거나 폭탄을 클릭한 경우
   
-  console.log(e.target.tagName);
-  // if(e.target.tagName.toLowerCase() === 'img') return; (문제발생.. TD를 누르는 경우도 발생 (모서리 클릭 시))
-  // 해결법? 해당 cell을 눌렀을 때! 로 처리해야함...
-
   var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target; 
   // 플래그 표시가 있으면 해당 cell을 눌렀을 때 img 태그로 인식되는 경우 존재!! 
   //클릭한 element의 태그가 img라면... 부모Element로 바꾼다(TD)
@@ -140,20 +137,16 @@ boardEl.addEventListener('click', function(e) {
       var row = parseInt(clickedEl.dataset.row);
       var col = parseInt(clickedEl.dataset.col);
       var cell = board[row][col];
-      if(cell.calcAdjFlagsAndOpen()) {
+
+      if(cell.calcAdjFlagsAndOpen()) { // flag 갯수와 해당 셀의 인접 폭탄 갯수가 같을 경우 인근 셀 전부 연다.....
         hitBomb = true;
         revealAll();
         clearInterval(timerId);
-
       }
-    } // flag 갯수와 해당 셀의 인접 폭탄 갯수가 같을 경우 인근 셀 전부 연다.....
+    } 
 
-    // 추가 필요 내용? 플래그 부분 == 폭탄이면 패스 !
-    // but, 플래그 != 폭탄이면 game over!!
-
-  
-  winner = getWinner();
-  render(); // 클릭한 경우 무조건 계속 render 해야함!
+    winner = getWinner();
+    render(); // 클릭한 경우 무조건 계속 render 해야함!
 });
 
 
@@ -170,10 +163,16 @@ boardEl.addEventListener('contextmenu',function(e){
     var cell = board[row][col];
 
     if(!cell.revealed && bombCount >= 0) {
-      bombCount += cell.flag() ? -1 : 1;
+      if(bombCount == 0 && !cell.flagged) {
+        // do Nothing;
+      } else {
+        bombCount += cell.flag() ? -1 : 1;
+      }
     }
   }
+  winner = getWinner();
   render(); // 클릭한 경우 무조건 계속 render 해야함!
+
 });
 
 
@@ -192,9 +191,14 @@ boardEl.addEventListener('touchend', function(e){
       var cell = board[row][col];
   
       if(!cell.revealed && bombCount >= 0) {
-        bombCount += cell.flag() ? -1 : 1;
+        if(bombCount == 0 && !cell.flagged) {
+          // do Nothing;
+        } else {
+          bombCount += cell.flag() ? -1 : 1;
+        }
       }
     }
+    winner = getWinner();
     render(); // 클릭한 경우 무조건 계속 render 해야함!
   }
 });
@@ -392,10 +396,21 @@ function getWinner() {
   for (var row = 0; row<board.length; row++) {
     for (var col = 0; col<board[0].length; col++) {
       var cell = board[row][col];
+      console.log("cell row: "+ cell.row + ", cell col: "+cell.col+", revealed: "+cell.revealed + ", isbomb: "+cell.isBomb);
       if (!cell.revealed && !cell.isBomb) return false;
     }
+  } 
   return true;
-  };
+  // var openCellCount = 0;
+  // for (var row = 0; row<board.length; row++) {
+  //   for (var col = 0; col<board[0].length; col++) {
+  //     var cell = board[row][col];
+  //     if (cell.revealed || (cell.flagged && cell.isBomb)) {
+  //        openCellCount += 1;
+  //     }
+  //   }
+  // };
+  // return openCellCount === (size*size)? true : false ;
 }
 
 
