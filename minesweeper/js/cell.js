@@ -35,7 +35,10 @@ class  Cell {
 
     calcAdjBombs() { // 특정 cell(A)의 인접 cell들 중 폭탄이 있는지 확인 후 A에 인접한 폭탄 갯수를 할당.
                      // 모든 cell을 돌아야하는 비용 발생.. 폭탄 발생시 폭탄이 발생한 곳을 기준으로 인접한 셀에 추가하는 것은 안되나?
-                     // Update 예정 
+                     /* Update 완료
+                      * (기존: 보드의 모든 셀을 돌면서 해당 셀 주변의 폭탄 갯수에 따른 업데이트)
+                      * (신규: 특정 셀에 폭탄을 놓으면서 해당 셀 주변에 폭탄 갯수를 +1 해주는 방식)
+                      */ 
         var adjCells = this.getAdjCells();
         var adjBombs = adjCells.forEach(function(cell) {
             cell.adjBombs += 1;

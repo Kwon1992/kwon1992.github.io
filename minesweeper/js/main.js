@@ -101,6 +101,7 @@ boardEl.addEventListener('click', function(e) {
     var cell = board[row][col];
     // 누른 셀의 attribute 값인 row와 col을 가져와서 cell 변수에 담는다.
 
+    // shiftKey 부분은 제거 예정.
     if (e.shiftKey && !cell.revealed && bombCount > 0) {
       bombCount += cell.flag() ? -1 : 1;
       // Shift와 함께 좌클릭을 하고 & 셀이 열리지 않았으며 & bombCount가 0보다 큰 경우 해당 셀을 flag 표시!
@@ -117,6 +118,20 @@ boardEl.addEventListener('click', function(e) {
     render(); // 클릭한 경우 무조건 계속 render 해야함!
   }
 });
+
+// 우클릭 이벤트 __ flag 꽂기 & 우클릭 메뉴 안 나오게 하기!
+/*
+boardEl.addEventListener('contextmenu',function(e){
+  var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
+  if(clickedEl.classList.contains('game-cell')) {
+    if (!timerId) setTimer(); 
+  }
+});
+*/
+
+// 열린 셀 좌클릭 시 __ 인접 셀 음영 처리 or 플래그 전부 꽂을 경우 열어주기 (폭탄이 맞는지 관계 없이)
+
+// 아이템??
 
 function createResetListener() { 
   document.getElementById('reset').addEventListener('click', function() {
@@ -284,11 +299,13 @@ function addBombs() { // 랜덤하게 폭탄 설치 core Function #4 _ updating.
     var currentCell = board[row][col];
 
     if (!currentCell.isBomb){
-      currentCell.isBomb = true;
-      currentTotalBombs -= 1;
       if(currentTotalBombs === sizeLookup[`${size}`].totalBombs) {bombCoordList  += "["+row+","+col+"]"}
       else {bombCoordList  += ",["+row+","+col+"]"}
       // 추가된 폭탄위치를 저장하는 위치 나열하는 string 제작
+
+      currentCell.isBomb = true;
+      currentTotalBombs -= 1;
+      
       currentCell.calcAdjBombs();
       // 인접 cell에 폭탄 갯수 추가
     }
