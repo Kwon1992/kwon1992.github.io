@@ -134,6 +134,7 @@ boardEl.addEventListener('contextmenu',function(e){
       bombCount += cell.flag() ? -1 : 1;
     }
   }
+  return false;
 });
 
 
