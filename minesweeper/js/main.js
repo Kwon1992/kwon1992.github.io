@@ -283,16 +283,17 @@ function addBombs() { // 랜덤하게 폭탄 설치 core Function #4 _ updating.
     var col = Math.floor(Math.random() * size);
     var currentCell = board[row][col];
 
-    if(currentTotalBombs === sizeLookup[`${size}`].totalBombs) {bombCoordList  += "["+row+","+col+"]"}
-    else {bombCoordList  += ",["+row+","+col+"]"}
-    // 추가된 폭탄위치를 저장하는 위치 나열하는 string 제작
-    
     if (!currentCell.isBomb){
       currentCell.isBomb = true;
       currentTotalBombs -= 1;
+      if(currentTotalBombs === sizeLookup[`${size}`].totalBombs) {bombCoordList  += "["+row+","+col+"]"}
+      else {bombCoordList  += ",["+row+","+col+"]"}
+      // 추가된 폭탄위치를 저장하는 위치 나열하는 string 제작
+      currentCell.calcAdjBombs();
+      // 인접 cell에 폭탄 갯수 추가
     }
-    currentCell.calcAdjBombs();
-    // 인접 cell에 폭탄 갯수 추가
+    
+
 
   }
 
