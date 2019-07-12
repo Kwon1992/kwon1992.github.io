@@ -3,8 +3,9 @@
  * 깃발이 표시된 상태에서 좌클릭 시 reveal하던 버그 발견 -> 수정 (MAIN.js)
  * cell 위에 마우스가 hover되는 경우 색깔 번경 (CSS 파트)
  * 깃발 갯수와 열린 부분의 폭탄 숫자가 같을 때 좌클릭하면 자동으로 인접 셀 열어줌 -> 만약 깃발이 잘못된 경우 게임 오버처리. (MAIN, CELL.js)
+ * 모바일 롱 프레스 인식 - 약 1.5초 누르면 플래그 on/off
  * 
- * 추가할 항목 : 모바일 롱 프레스 인식 - 약 2초 누르면 플래그 on/off
+ * 할 일?
  */
 
 
@@ -182,7 +183,7 @@ boardEl.addEventListener('touchstart', function(e){
 });
 boardEl.addEventListener('touchend', function(e){
   touchEndTimeStamp = e.timeStamp;
-  if(touchEndTimeStamp - touchStartTimeStamp > 1499) { // press 1.5 sec
+  if(touchEndTimeStamp - touchStartTimeStamp > 999) { // press 1.5 sec
     var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
     if(clickedEl.classList.contains('game-cell')) {
       if (!timerId) setTimer(); 
