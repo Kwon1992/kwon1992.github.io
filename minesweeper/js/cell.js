@@ -39,12 +39,34 @@ class  Cell {
                       * (기존: 보드의 모든 셀을 돌면서 해당 셀 주변의 폭탄 갯수에 따른 업데이트)
                       * (신규: 특정 셀에 폭탄을 놓으면서 해당 셀 주변에 폭탄 갯수를 +1 해주는 방식)
                       */ 
-        var adjCells = this.getAdjCells();
-        var adjBombs = adjCells.forEach(function(cell) {
-            cell.adjBombs += 1;
-        });
+                     var adjCells = this.getAdjCells();
+                     var adjBombs = adjCells.forEach(function(cell) {
+                         cell.adjBombs += 1;
+                     });
         return; 
     }
+
+    calcAdjFlagsAndOpen() {
+        var checker = false;
+        var numOfFlags = 0;
+        var adjCells = this.getAdjCells();
+        adjCells.forEach(function(cell) {
+            if(cell.flagged) {
+                numOfFlags += 1;
+            }
+        });
+        if(this.adjBombs === numOfFlags) {
+            adjCells.forEach(function(cell) {
+                cell.reveal();
+                if(cell.flagged === false && cell.isBomb == true  && checker === false) {
+                    checker = true;
+                }
+            });
+        }
+        return checker;
+    }
+
+
     /* Javascript의 Array.reduce()함수
      * 
      * Array.reduce(callback[, initVal]); 형태

@@ -1,3 +1,11 @@
+/* << 변화한 점 - 190712 >>
+ * shift + 좌클릭이 깃발 표시 였으나, 우클릭으로 변경함. (shift+좌클릭 깃발 표시 제거) (main.js)
+ * 깃발이 표시된 상태에서 좌클릭 시 reveal하던 버그 발견 -> 수정 (MAIN.js)
+ * cell 위에 마우스가 hover되는 경우 색깔 번경 (CSS 파트)
+ * 깃발 갯수와 열린 부분의 폭탄 숫자가 같을 때 좌클릭하면 자동으로 인접 셀 열어줌 -> 만약 깃발이 잘못된 경우 게임 오버처리. (MAIN, CELL.js)
+ * 
+ */
+
 /*----- constants -----*/
 var bombImage = '<img src="images/bomb.png">';
 var flagImage = '<img src="images/flag.png">';
@@ -80,11 +88,13 @@ document.getElementById('size-btns').addEventListener('click', function(e) { // 
 boardEl.addEventListener('click', function(e) {
   if (winner || hitBomb) return; // 전부 폭탄없는 부분을 누르거나 폭탄을 클릭한 경우
   
-  if(e.target.tagName.toLowerCase() === 'img') return;
-  // 플래그 표시가 있으면 해당 cell을 눌렀을 때 img 태그로 인식됨!! 따라서, 해당 셀이 깃발이 그려져있는 셀인 경우 클릭을 무시한다.
-  
-  var clickedEl = e.target;
-  //클릭한 element의 태그가 img라면... 부모Element로 바꾼다 // 아니라면 그대로 놔둔다..?
+  console.log(e.target.tagName);
+  // if(e.target.tagName.toLowerCase() === 'img') return; (문제발생.. TD를 누르는 경우도 발생 (모서리 클릭 시))
+  // 해결법? 해당 cell을 눌렀을 때! 로 처리해야함...
+
+  var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target; 
+  // 플래그 표시가 있으면 해당 cell을 눌렀을 때 img 태그로 인식되는 경우 존재!! 
+  //클릭한 element의 태그가 img라면... 부모Element로 바꾼다(TD)
   //처음 깃발이 없는 상태에서는 클릭한 태그가 img가 아님...
   /*  <html> <body> </body> </html> 에서
    *  body에 대해 .parentElement를 하면 <html>을 반환.
@@ -99,27 +109,42 @@ boardEl.addEventListener('click', function(e) {
     //buildTable() 함수를 보면 각 cell마다 game-cell이라는 class명을 붙이는 것을 알 수 있다.
     if (!timerId) setTimer(); 
     // 첫 클릭 전까지는 timer가 시작되지 않으므로, 첫 클릭시 setTimer()를 호출해 타이머 시작!
+    // 누른 셀의 attribute 값인 row와 col을 가져와서 cell 변수에 담는다.
     var row = parseInt(clickedEl.dataset.row);
     var col = parseInt(clickedEl.dataset.col);
     var cell = board[row][col];
-    // 누른 셀의 attribute 값인 row와 col을 가져와서 cell 변수에 담는다.
+
+    if(cell.flagged) return; // 좌클릭한 cell이 플래그 표시가 되어있으면 무시
+     
     hitBomb = cell.reveal(); // Cell을 열었을 때 폭탄 여부에 따른 true, false 반환
     if (hitBomb) { 
       revealAll();
       clearInterval(timerId);
       e.target.style.backgroundColor = 'red';
     }
-  }
+  } else if(clickedEl.classList.contains('revealed')){
+      var row = parseInt(clickedEl.dataset.row);
+      var col = parseInt(clickedEl.dataset.col);
+      var cell = board[row][col];
+      if(cell.calcAdjFlagsAndOpen()) {
+        hitBomb = true;
+        revealAll();
+        clearInterval(timerId);
+
+      }
+    } // flag 갯수와 해당 셀의 인접 폭탄 갯수가 같을 경우 인근 셀 전부 연다.....
+
+    // 추가 필요 내용? 플래그 부분 == 폭탄이면 패스 !
+    // but, 플래그 != 폭탄이면 game over!!
+
+  
   winner = getWinner();
   render(); // 클릭한 경우 무조건 계속 render 해야함!
 });
 
-// 우클릭 이벤트 __ flag 꽂기 & 우클릭 메뉴 안 나오게 하기! _ 완료!
-
-// 추가해야하는 부분.. flag 부분에 대해서는 좌클릭 했을 시 아무런 반응이 없어야 한다! _ 체크중...
-
 boardEl.addEventListener('contextmenu',function(e){
   e.preventDefault();
+  console.log(e.target.tagName);
   var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
   if(clickedEl.classList.contains('game-cell')) {
     if (!timerId) setTimer(); 
@@ -135,7 +160,6 @@ boardEl.addEventListener('contextmenu',function(e){
 });
 
 
-// 열린 셀 좌클릭 시 __ 인접 셀 음영 처리 or 플래그 전부 꽂을 경우 열어주기 (폭탄이 맞는지 관계 없이)
 
 // 아이템??
 
@@ -333,7 +357,6 @@ function getWinner() {
       var cell = board[row][col];
       if (!cell.revealed && !cell.isBomb) return false;
     }
-  } // 폭탄 제외 모든 cell이 열리고 폭탄을 누르지 않은 상태여야함.
   return true;
 };
 
