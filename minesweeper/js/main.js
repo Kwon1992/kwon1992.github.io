@@ -4,7 +4,9 @@
  * cell 위에 마우스가 hover되는 경우 색깔 번경 (CSS 파트)
  * 깃발 갯수와 열린 부분의 폭탄 숫자가 같을 때 좌클릭하면 자동으로 인접 셀 열어줌 -> 만약 깃발이 잘못된 경우 게임 오버처리. (MAIN, CELL.js)
  * 
+ * 추가할 항목 : 모바일 롱 프레스 인식 - 약 2초 누르면 플래그 on/off
  */
+
 
 /*----- constants -----*/
 var bombImage = '<img src="images/bomb.png">';
@@ -28,6 +30,8 @@ var colors = [ // 각각 폭탄 개수마다 숫자의 색을 바꾸기 위한 �
 ];
 
 /*----- app's state (variables) -----*/
+
+
 // map var
 var size = 16;
 var board;
@@ -43,8 +47,17 @@ var timerId;
 var elapsedTime;
 var timeElapsed;
 
+
+// touch timer var
+var touchStartTimeStamp;
+var touchEndTimeStamp
+;
 /*----- cached element references -----*/
 var boardEl = document.getElementById('board'); // html의 table 가져옴
+
+
+
+
 
 /*----- event listeners -----*/
 // target.addEventListener(이벤트종류, listener);
@@ -142,6 +155,9 @@ boardEl.addEventListener('click', function(e) {
   render(); // 클릭한 경우 무조건 계속 render 해야함!
 });
 
+
+
+
 boardEl.addEventListener('contextmenu',function(e){
   e.preventDefault();
   console.log(e.target.tagName);
@@ -160,7 +176,27 @@ boardEl.addEventListener('contextmenu',function(e){
 });
 
 
-
+// Mobile long press implementation
+boardEl.addEventListener('touchstart', function(e){
+  touchStartTimeStamp = e.timeStamp;
+});
+boardEl.addEventListener('touchend', function(e){
+  touchEndTimeStamp = e.timeStamp;
+  if(touchEndTimeStamp - touchStartTimeStamp > 2000) {
+    var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
+    if(clickedEl.classList.contains('game-cell')) {
+      if (!timerId) setTimer(); 
+      var row = parseInt(clickedEl.dataset.row);
+      var col = parseInt(clickedEl.dataset.col);
+      var cell = board[row][col];
+  
+      if(!cell.revealed && bombCount >= 0) {
+        bombCount += cell.flag() ? -1 : 1;
+      }
+    }
+    render(); // 클릭한 경우 무조건 계속 render 해야함!
+  }
+});
 // 아이템??
 
 function createResetListener() { 
@@ -358,7 +394,8 @@ function getWinner() {
       if (!cell.revealed && !cell.isBomb) return false;
     }
   return true;
-};
+  };
+}
 
 
 function init() { // map 제작 + 초기 변수 설정
@@ -433,3 +470,4 @@ function runCodeForAllCells(cb) {
 //  실제 실행함수 2
 init();
 render();
+
