@@ -80,8 +80,11 @@ document.getElementById('size-btns').addEventListener('click', function(e) { // 
 boardEl.addEventListener('click', function(e) {
   if (winner || hitBomb) return; // 전부 폭탄없는 부분을 누르거나 폭탄을 클릭한 경우
   
+  console.log(e.target.tagName); // for debug
+
   var clickedEl;
   clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
+
   //클릭한 element의 태그가 img라면... 부모Element로 바꾼다 // 아니라면 그대로 놔둔다..?
   //처음 깃발이 없는 상태에서는 클릭한 태그가 img가 아님...
   /*  <html> <body> </body> </html> 에서
@@ -102,7 +105,6 @@ boardEl.addEventListener('click', function(e) {
     var cell = board[row][col];
     // 누른 셀의 attribute 값인 row와 col을 가져와서 cell 변수에 담는다.
 
-    // shiftKey 부분은 제거 예정.
     if (e.shiftKey && !cell.revealed && bombCount > 0) {
       bombCount += cell.flag() ? -1 : 1;
       // Shift와 함께 좌클릭을 하고 & 셀이 열리지 않았으며 & bombCount가 0보다 큰 경우 해당 셀을 flag 표시!
