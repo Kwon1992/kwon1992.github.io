@@ -120,14 +120,21 @@ boardEl.addEventListener('click', function(e) {
 });
 
 // 우클릭 이벤트 __ flag 꽂기 & 우클릭 메뉴 안 나오게 하기!
-/*
+
 boardEl.addEventListener('contextmenu',function(e){
   var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
   if(clickedEl.classList.contains('game-cell')) {
     if (!timerId) setTimer(); 
+    var row = parseInt(clickedEl.dataset.row);
+    var col = parseInt(clickedEl.dataset.col);
+    var cell = board[row][col];
+
+    if(!cell.revealed && bombCount > 0) {
+      bombCount += cell.flag() ? -1 : 1;
+    }
   }
 });
-*/
+
 
 // 열린 셀 좌클릭 시 __ 인접 셀 음영 처리 or 플래그 전부 꽂을 경우 열어주기 (폭탄이 맞는지 관계 없이)
 
