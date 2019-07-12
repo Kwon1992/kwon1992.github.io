@@ -237,11 +237,16 @@ function buildCells(){ // core Function #3
       //Cell에 관한 내용은 cell.js 참조.
     });
   });
-  addBombs(); // 모든 2차원배열을 cell로 만든 뒤 폭탄을 추가함.
+  addBombs(); // 모든 2차원배열을 cell로 만든 뒤 폭탄을 추가함. 
+  // addBombs() 내부에서 인접 폭탄 개수 계산하도록 변경... (updating)
+  
+
+  /*
   runCodeForAllCells(function(cell){ // 맨 하단에 runCodeForAllCells에 관한 함수 존재.
     cell.calcAdjBombs();
   }); 
   // 폭탄 추가 후 각 cell마다 자신의 인접 셀에 폭탄 잇는지 확인 후 폭탄 개수 처리
+  */
 };
 // forEach 함수 : https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 // 인자#1 currentValue :처리할 현재 요소 & 인자#2 index:처리할 현재 요소의 인덱스.
@@ -253,7 +258,7 @@ function getBombCount() {
   var count = 0;
   board.forEach(function(row){
     count += row.filter(function(cell) {
-      return cell.bomb;
+      return cell.isBomb;
     }).length
   });
   // Array.filter() : https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
@@ -270,23 +275,30 @@ function getBombCount() {
 
 
 
-function addBombs() { // 랜덤하게 폭탄 설치 core Function #4
+function addBombs() { // 랜덤하게 폭탄 설치 core Function #4 _ updating...
   var currentTotalBombs = sizeLookup[`${size}`].totalBombs;
-  //var bombCoordList = ""; //string으로 사용할 예정.
+  var bombCoordList = ""; //string으로 사용할 예정.
   while (currentTotalBombs !== 0) {
     var row = Math.floor(Math.random() * size);
     var col = Math.floor(Math.random() * size);
-    var currentCell = board[row][col]
-    //if(currentTotalBombs === sizeLookup[`${size}`].totalBombs) {bombCoordList  += "["+row+","+col+"]"}
-    //else {bombCoordList  += ",["+row+","+col+"]"}
+    var currentCell = board[row][col];
+
+    if(currentTotalBombs === sizeLookup[`${size}`].totalBombs) {bombCoordList  += "["+row+","+col+"]"}
+    else {bombCoordList  += ",["+row+","+col+"]"}
+    // 추가된 폭탄위치를 저장하는 위치 나열하는 string 제작
+
+    currentCell.calcAdjBombs();
+    // 인접 cell에 폭탄 갯수 추가
     
-    if (!currentCell.bomb){
-      currentCell.bomb = true
-      currentTotalBombs -= 1
+    if (!currentCell.isBomb){
+      currentCell.isBomb = true;
+      currentTotalBombs -= 1;
     }
   }
-  //console.log(bombCoordList);
-  //return bombCoordList;
+
+  console.log(bombCoordList); // 실제 위치를 확인해보기 위한 log 출력
+  return bombCoordList; // 나중에 hash값으로 변환하기 위해 string값 return
+  
 };
 /* "//"부분은 임의로 추가할 부분 - update 예정
 */
@@ -295,7 +307,7 @@ function getWinner() {
   for (var row = 0; row<board.length; row++) {
     for (var col = 0; col<board[0].length; col++) {
       var cell = board[row][col];
-      if (!cell.revealed && !cell.bomb) return false;
+      if (!cell.revealed && !cell.isBomb) return false;
     }
   } // 폭탄 제외 모든 cell이 열리고 폭탄을 누르지 않은 상태여야함.
   return true;
@@ -332,7 +344,7 @@ function render() {
       td.innerHTML = flagImage; // 이미지 바꿔줌
     } 
     else if (cell.revealed) { // 공개된 경우
-      if (cell.bomb) { // 폭탄이라면
+      if (cell.isBomb) { // 폭탄이라면
         td.innerHTML = bombImage; // 폭탄 이미지
       } else if (cell.adjBombs) { // 인접된 곳에 폭탄이 있다면
         td.className = 'revealed' // 클래스 이름 변경
@@ -351,7 +363,7 @@ function render() {
     document.getElementById('reset').innerHTML = '<img src=images/dead-face.png>'; // 사망!
     
     runCodeForAllCells(function(cell) { // 모든 cell에 대해서 해당 함수 적용
-      if (!cell.bomb && cell.flagged) { // flag 표시가 되었으나 폭탄이 아닌 cell에 대해서...
+      if (!cell.isBomb && cell.flagged) { // flag 표시가 되었으나 폭탄이 아닌 cell에 대해서...
         var td = document.querySelector(`[data-row="${cell.row}"][data-col="${cell.col}"]`); // 해당 셀의 좌표 td에 담음
         td.innerHTML = wrongBombImage; // 잘못된 폭탄 이미지 넣음
       }

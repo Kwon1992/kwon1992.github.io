@@ -2,10 +2,11 @@ class  Cell {
     constructor(row, col, board) { // row : 행 개수, col : 열 개수, board : 2차원배열 형태의 보드판
         this.row = row;
         this.col = col;
-        this.bomb = false;
+        this.isBomb = false;
         this.board = board;
         this.revealed = false;
         this.flagged = false;
+        this.adjBombs = 0;
         //this.XXX = XXX; (this.XXX : Cell의 변수, XXX : 인자값)
     }
 
@@ -36,10 +37,10 @@ class  Cell {
                      // 모든 cell을 돌아야하는 비용 발생.. 폭탄 발생시 폭탄이 발생한 곳을 기준으로 인접한 셀에 추가하는 것은 안되나?
                      // Update 예정 
         var adjCells = this.getAdjCells();
-        var adjBombs = adjCells.reduce(function(acc, cell) {
-            return acc + (cell.bomb ? 1 : 0);
-        }, 0);
-        this.adjBombs = adjBombs;
+        var adjBombs = adjCells.forEach(function(cell) {
+            cell.adjBombs += 1;
+        });
+        return; 
     }
     /* Javascript의 Array.reduce()함수
      * 
@@ -85,7 +86,7 @@ class  Cell {
         
         this.revealed = true;
         // 위의 경우에 해당하지 않는다면 revealed의 값을 true로 바꾼다.
-        if (this.bomb) return true;
+        if (this.isBomb) return true;
         // 한편 열어본 cell이 폭탄인 경우 true를 return한다.
         if (this.adjBombs === 0) {
             var adj = this.getAdjCells();
