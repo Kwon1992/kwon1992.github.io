@@ -83,6 +83,7 @@ boardEl.addEventListener('click', function(e) {
   var clickedEl;
   clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
   //클릭한 element의 태그가 img라면... 부모Element로 바꾼다 // 아니라면 그대로 놔둔다..?
+  //처음 깃발이 없는 상태에서는 클릭한 태그가 img가 아님...
   /*  <html> <body> </body> </html> 에서
    *  body에 대해 .parentElement를 하면 <html>을 반환.
    *  
@@ -121,6 +122,8 @@ boardEl.addEventListener('click', function(e) {
 
 // 우클릭 이벤트 __ flag 꽂기 & 우클릭 메뉴 안 나오게 하기!
 
+// 추가해야하는 부분.. flag 부분에 대해서는 좌클릭 했을 시 아무런 반응이 없어야 한다!
+
 boardEl.addEventListener('contextmenu',function(e){
   e.preventDefault();
   var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
@@ -134,7 +137,7 @@ boardEl.addEventListener('contextmenu',function(e){
       bombCount += cell.flag() ? -1 : 1;
     }
   }
-  return false;
+  render(); // 클릭한 경우 무조건 계속 render 해야함!
 });
 
 
