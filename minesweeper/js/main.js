@@ -182,7 +182,7 @@ boardEl.addEventListener('touchstart', function(e){
 });
 boardEl.addEventListener('touchend', function(e){
   touchEndTimeStamp = e.timeStamp;
-  if(touchEndTimeStamp - touchStartTimeStamp > 2000) {
+  if(touchEndTimeStamp - touchStartTimeStamp > 1499) { // press 1.5 sec
     var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
     if(clickedEl.classList.contains('game-cell')) {
       if (!timerId) setTimer(); 
