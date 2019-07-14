@@ -396,21 +396,11 @@ function getWinner() {
   for (var row = 0; row<board.length; row++) {
     for (var col = 0; col<board[0].length; col++) {
       var cell = board[row][col];
-      console.log("cell row: "+ cell.row + ", cell col: "+cell.col+", revealed: "+cell.revealed + ", isbomb: "+cell.isBomb);
+      // console.log("cell row: "+ cell.row + ", cell col: "+cell.col+", revealed: "+cell.revealed + ", isbomb: "+cell.isBomb);
       if (!cell.revealed && !cell.isBomb) return false;
     }
   } 
   return true;
-  // var openCellCount = 0;
-  // for (var row = 0; row<board.length; row++) {
-  //   for (var col = 0; col<board[0].length; col++) {
-  //     var cell = board[row][col];
-  //     if (cell.revealed || (cell.flagged && cell.isBomb)) {
-  //        openCellCount += 1;
-  //     }
-  //   }
-  // };
-  // return openCellCount === (size*size)? true : false ;
 }
 
 
