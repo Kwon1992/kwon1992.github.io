@@ -241,7 +241,9 @@ function revealAll() { // 모든 셀 열기 (죽었을 때?)
 
 function buildTable() { // core Function #1
   // <tr> : (행 추가) <td> : (열 추가) <tr> <td></td> <td></td> </tr> : 1행 2열짜리 테이블
+  //<div id="folder1"><a href="https://github.com/nickarocho/minesweeper/blob/master/readme.md" target="blank">Read Me </a></div>
   var topRow = `
+  
   <tr>
     <td class="menu" id="window-title-bar" colspan="${size}">
       <div id="window-title"><img src="images/mine-menu-icon.png"> Minesweeper</div>
@@ -249,8 +251,8 @@ function buildTable() { // core Function #1
     </td>
   <tr>
     <td class="menu" id="folder-bar" colspan="${size}">
-      <div id="folder1"><a href="https://github.com/nickarocho/minesweeper/blob/master/readme.md" target="blank">Read Me </a></div>
-      <div id="folder2"><a href="https://github.com/nickarocho/minesweeper" target="blank">Source Code</a></div>
+      
+      <div id="folder2"><a href="https://github.com/Kwon1992/kwon1992.github.io/tree/master/minesweeper" target="blank">Source Code</a></div>
     </td>
   </tr>
   </tr>
