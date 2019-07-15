@@ -54,8 +54,7 @@ var timeElapsed;
 // touch timer var
 var touchStartTimeStamp;
 var touchEndTimeStamp
-var touchFlag[2];
-;
+var touchFlag = [false, false];
 /*----- cached element references -----*/
 var boardEl = document.getElementById('board'); // html의 table 가져옴
 
