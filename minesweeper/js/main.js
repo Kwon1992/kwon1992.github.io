@@ -1,4 +1,4 @@
-/* << 변화한 점 - 190712 >>
+/* << 변화한 점 - 190715 >>
  * shift + 좌클릭이 깃발 표시 였으나, 우클릭으로 변경함. (shift+좌클릭 깃발 표시 제거) (main.js)
  * 깃발이 표시된 상태에서 좌클릭 시 reveal하던 버그 발견 -> 수정 (MAIN.js)
  * cell 위에 마우스가 hover되는 경우 색깔 번경 (CSS 파트)
@@ -7,6 +7,7 @@
  * 
  * 버그 : easy 모드에서 셀을 전부 열지 않았는데 게임이 끝나버리는 현상 발생... - 수정 완료!
  * 버그2 : 플래그를 정해진 폭탄 개수 이상 찍을 수 있는 현상. - 수정 완료!
+ * 버그3 : 안드로이드 상에서 롱 프레스할 경우 터치엔드 2번 인식 현상 발생
  */
 
 
@@ -53,6 +54,7 @@ var timeElapsed;
 // touch timer var
 var touchStartTimeStamp;
 var touchEndTimeStamp
+var touchFlag[2];
 ;
 /*----- cached element references -----*/
 var boardEl = document.getElementById('board'); // html의 table 가져옴
@@ -179,10 +181,14 @@ boardEl.addEventListener('contextmenu',function(e){
 // Mobile long press implementation
 boardEl.addEventListener('touchstart', function(e){
   touchStartTimeStamp = e.timeStamp;
+  touchFlag[0] = true;
 });
 boardEl.addEventListener('touchend', function(e){
   touchEndTimeStamp = e.timeStamp;
-  if(touchEndTimeStamp - touchStartTimeStamp > 499) { // press 0.5 sec
+  touchFlag[1] = true;
+  if(touchEndTimeStamp - touchStartTimeStamp > 499 && touchFlag[0] === touchFlag[1]) { // press 0.5 sec
+    touchFlag[0] = false;
+    touchFlag[1] = false;
     var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
     if(clickedEl.classList.contains('game-cell')) {
       if (!timerId) setTimer(); 
