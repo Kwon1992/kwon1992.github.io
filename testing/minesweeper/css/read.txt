@@ -1,0 +1,3 @@
+Q. otf 파일과 ttf 파일? 
+A. 글꼴파일.
+A2. main.css를 보면 otf와 ttf파일을 불러와서 design하는 것을 알 수 있음.
