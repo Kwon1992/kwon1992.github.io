@@ -26,18 +26,17 @@ body {
     background-color: lightgray;
 }
 
-button {
-    font-family: 'MS Sans Serif';
-    text-align: left;
-    font-size: 14px;
-    height: 30px;
-    width: 100px;
-    background-color: #BFBFBF;
-    color: black;
-    border-bottom: 2px solid #7B7B7B;
-    border-left: 2px solid #ffffff;
-    border-top: 2px solid #ffffff;
-    border-right: 2px solid #7B7B7B;
+button
+{
+  height:30px;
+  width:200px;
+  border-radius:8px;
+  padding:10px;
+  font-size:20px;
+  font-family: 'Oswald', sans-serif;
+  height:52px;
+  cursor:pointer;
+  background-color:wheat;
 }
 
 button:hover {
@@ -127,27 +126,31 @@ button:hover {
 
 #size-btns {
     text-align: center;
-    display: inline;
+    display: inline-block;
     width:auto;
     margin: 2px;
 }
 
-#level-btns {
-    display:inline-block;
-    max-width: 30%;
+/* .level {
+    text-align: center;
     margin: 2px;
-    width:auto;
+    width: 90px;
 }
 
+.item{
+    text-align: center;
+    width: 150px;
+} */
 #item-btns {
     display: inline-block;
+    
     margin: 2px;
     width:auto;
 }
 
 #item-description {
     text-align: center;
-    display: inline;
+    display: inline-block;
     width:auto;
     margin: 2px;
 }
@@ -248,4 +251,26 @@ td {
     background: -webkit-linear-gradient(left, rgba(33,41,89,1) 0%,rgba(33,41,89,1) 11%,rgba(80,114,161,1) 56%,rgba(117,172,219,0.7) 92%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, rgba(33,41,89,1) 0%,rgba(33,41,89,1) 11%,rgba(80,114,161,1) 56%,rgba(117,172,219,0.7) 92%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#212959', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */                          
 }
