@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Minesweeper - Main Page</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <!-- 
+    jquery를 불러오면서 integrity 와 crossorigin을 이용해 보안점검.
+    integrity의 경우 browser에게 file source가 manipulated 되었는가 검증하여 manipulated 된 경우 load
+    하지 않도록 함. ((JS기반 DDoS공격을 방어하기 위해 웹페이지의 hash값과 script의 hash값이 일치해야 
+    script 명령을 실행함.
+
+    참고사이트 : www.codefactory.net/10364
+    -->
+</head>
+<body>   
+    <div id="start"><img src="images/start.png"></div>
+    <div id="size-btns">
+        <div id="size-btns"><button id="size-9"><img src="images/easy.png"> Easy</button></div> 
+        <div id="size-btns"><button id="size-16"><img src="images/medium.png"> Medium</button></div> 
+        <div id="size-btns"><button id="size-30"><img src="images/hard.png"> Hard</button></div>
+        </div>
+    </section>
+    <script src="js/cell.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
