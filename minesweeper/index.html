@@ -1,22 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" oncontextmenu='return false'>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <!--
-    viewport : 반응형 web에서 사용. 접속기기에 따라 화면 크기 자동 변경...
-    하지만 이미지는 자동으로 변경이 되지 않으므로 CSS에 하단과 같이 활용 적어서 변경함
-
-    img {
-        width:100%,
-        height = auto;
-    }
-
-    참고 사이트 : offbyone.tistory.com/110 
-                 aboooks.tistory.com/352
-     -->
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Minesweeper - Game Page</title>
+    <title>Minesweeper</title>
     <link rel="stylesheet" href="css/main.css">
     <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -30,24 +18,32 @@
 
     참고사이트 : www.codefactory.net/10364
     -->
+
 </head>
-<body >   
-    <div class="flex-container">
-        <div class="game-board">
-            <br>
-                <table id="board"></table>
+<body class="flex-body">   
+    <div>
+        <h1>MineSweeper</h1>
+        <div id="size-btns" style="width: auto;">
+            <div id="size-btns"><button id="EZ"><img src="images/easy.png"> Easy</button></div> 
+            <div id="size-btns"><button id="NM"><img src="images/medium.png"> Medium</button></div> 
+            <div id="size-btns"><button id="HD"><img src="images/hard.png"> Hard</button></div>
         </div>
     </div>
-        <section id="footer">
-            <div id="start"><img src="images/start.png"></div>
-            <div id="size-btns">
-                <div id="size-btns"><button id="size-9"><img src="images/easy.png"> Easy</button></div> 
-                <div id="size-btns"><button id="size-16"><img src="images/medium.png"> Medium</button></div> 
-                <div id="size-btns"><button id="size-30"><img src="images/hard.png"> Hard</button></div>
-            </div>
-            <div id="clock"><em>"Right Click(long Press)"</em></strong> <img src="images/flag.png"></div>
-        </section>
-    <script src="js/cell.js"></script>
-    <script src="js/main.js"></script>
+    <br>
+    <div>
+        <h2>Select Items</h2>
+        <div id="item-btns">
+            <div id="item-btns"><button id="protect">PROECT</button></div>
+            <div id="item-btns"><button id="showStart">START PIN</button></div> 
+            <div id="item-btns"><button id="revealAll">REVEAL ALL</button></div> 
+        </div>
+    </div>
+    <br><br><br>
+    <div>
+        <button id="start-btn" type="button">GAME START</button>
+        <button id="explain-btn" type="button">HOW TO PLAY</button>
+
+    </div>
+    <script src="js/mainPage.js"></script>
 </body>
 </html>

@@ -55,7 +55,7 @@ button:hover {
     border-left: 1.5px solid #808080;
     border-right: 1.5px solid #FAFAFA;
     border-bottom: 1.5px solid #FAFAFA;
-    /* height: 28px; */
+    height: 28px;
     width: 200px;
     height: 22px;
     margin: 2px;
@@ -114,14 +114,6 @@ button:hover {
     border-left: 2px solid #ffffff;
 }
 
-.revealed {
-    font-family: "Press Start";
-    background-color: #C0C0C0;
-    font-size: 80%;
-    text-align: center;
-    border: none;
-}
-
 #reset:hover {
     text-align: center;
     cursor: pointer;
@@ -134,9 +126,44 @@ button:hover {
 }
 
 #size-btns {
-    float: left;
+    text-align: center;
     display: inline;
+    width:auto;
     margin: 2px;
+}
+
+#level-btns {
+    display:inline-block;
+    max-width: 30%;
+    margin: 2px;
+    width:auto;
+}
+
+#item-btns {
+    display: inline-block;
+    margin: 2px;
+    width:auto;
+}
+
+#item-description {
+    text-align: center;
+    display: inline;
+    width:auto;
+    margin: 2px;
+}
+
+#start-btn {
+    text-align: center;
+    display:inline-block;
+    max-width: 450%;
+    width:auto;
+}
+
+#explain-btn {
+    text-align: center;
+    display:inline-block;
+    max-width: 45%;
+    width:auto;
 }
 
 #start {
@@ -156,6 +183,8 @@ button:hover {
 }
 
 td {
+    font-family: "Press Start";
+    font-size: 80%;
     height: 20px;
     width: 20px;
     background-color: #C0C0C0;
@@ -177,8 +206,17 @@ td {
     border-right-color: #7B7B7B;
     border-bottom-color: #7B7B7B;
     border-left-color: #ffffff;
+
     text-align: center;
     vertical-align: middle;
+}
+
+.revealed {
+    font-family: "Press Start";
+    background-color: #C0C0C0;
+    font-size: 80%;
+    text-align: center;
+    border: none;
 }
 
 #timer, #bomb-counter {
