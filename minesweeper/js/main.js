@@ -8,6 +8,7 @@
  * 버그 : easy 모드에서 셀을 전부 열지 않았는데 게임이 끝나버리는 현상 발생... - 수정 완료!
  * 버그2 : 플래그를 정해진 폭탄 개수 이상 찍을 수 있는 현상. - 수정 완료!
  * 버그3 : 안드로이드 상에서 롱 프레스할 경우 터치엔드 2번 인식 현상 발생
+ * 버그4 : 게임 종료 후 우클릭 시 깃발 on/off 현상 - 수정완료
  */
 
 
@@ -55,11 +56,9 @@ var timeElapsed;
 var touchStartTimeStamp;
 var touchEndTimeStamp
 var touchFlag = [false, false];
+
 /*----- cached element references -----*/
 var boardEl = document.getElementById('board'); // html의 table 가져옴
-
-
-
 
 
 /*----- event listeners -----*/
@@ -81,7 +80,20 @@ var boardEl = document.getElementById('board'); // html의 table 가져옴
  * https://developer.mozilla.org/ko/docs/Web/Events
  * https://blog.sonim1.com/152
  */
+function attachListeners(){
+  boardEl.addEventListener('click', clickListener);
+  boardEl.addEventListener('contextmenu',contextMenuListener);
+  boardEl.addEventListener('touchstart', touchStartListener);
+  boardEl.addEventListener('touchend', touchEndListener );
+}
 
+function removeListeners(){
+  boardEl.removeEventListener('click', clickListener);
+  boardEl.removeEventListener('contextmenu',contextMenuListener);
+  boardEl.removeEventListener('touchstart', touchStartListener);
+  boardEl.removeEventListener('touchend', touchEndListener );
+}
+ 
 
 document.getElementById('size-btns').addEventListener('click', function(e) { // size-btns을 클릭한 경우... e : 이벤트 발생 객체
   size = parseInt(e.target.id.replace('size-', '')); // size-N 으로 되어있는 id에서 N을 추출하기 위해 replace로 'size-' 제거 후 변환
@@ -90,18 +102,18 @@ document.getElementById('size-btns').addEventListener('click', function(e) { // 
   render(); // 렌더링
 });
 
+function createResetListener() { 
+  document.getElementById('reset').addEventListener('click', function() {
+    init();
+    render();
+  });
+}
 
-// HTML 파일 & buildTable() 과 같이 볼 것
-// board의 태그 현황
-/*
- * <table>
- *  <tr>
- *    <td class = 'game-cell' ... ></td>, <td></td>, ... <td></td>
- *  </tr>
- *   (repeat...)
- * </table>
- */
-boardEl.addEventListener('click', function(e) {
+
+
+/*----- listener functions -----*/
+
+function clickListener (e) {
   if (winner || hitBomb) return; // 전부 폭탄없는 부분을 누르거나 폭탄을 클릭한 경우
   
   var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target; 
@@ -145,15 +157,13 @@ boardEl.addEventListener('click', function(e) {
         clearInterval(timerId);
       }
     } 
-
     winner = getWinner();
     render(); // 클릭한 경우 무조건 계속 render 해야함!
-});
+}
 
 
 
-
-boardEl.addEventListener('contextmenu',function(e){
+function contextMenuListener(e) {
   e.preventDefault();
   console.log(e.target.tagName);
   var clickedEl = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
@@ -173,16 +183,16 @@ boardEl.addEventListener('contextmenu',function(e){
   }
   winner = getWinner();
   render(); // 클릭한 경우 무조건 계속 render 해야함!
+}
 
-});
 
 
-// Mobile long press implementation
-boardEl.addEventListener('touchstart', function(e){
+function touchStartListener(e){
   touchStartTimeStamp = e.timeStamp;
   touchFlag[0] = true;
-});
-boardEl.addEventListener('touchend', function(e){
+}
+
+function touchEndListener(e) {
   touchEndTimeStamp = e.timeStamp;
   touchFlag[1] = true;
   if(touchEndTimeStamp - touchStartTimeStamp > 499 && touchFlag[0] === touchFlag[1]) { // press 0.5 sec
@@ -194,7 +204,7 @@ boardEl.addEventListener('touchend', function(e){
       var row = parseInt(clickedEl.dataset.row);
       var col = parseInt(clickedEl.dataset.col);
       var cell = board[row][col];
-  
+    
       if(!cell.revealed && bombCount >= 0) {
         if(bombCount == 0 && !cell.flagged) {
           // do Nothing;
@@ -206,16 +216,7 @@ boardEl.addEventListener('touchend', function(e){
     winner = getWinner();
     render(); // 클릭한 경우 무조건 계속 render 해야함!
   }
-});
-// 아이템??
-
-function createResetListener() { 
-  document.getElementById('reset').addEventListener('click', function() {
-    init();
-    render();
-  });
 }
-
 
 /*----- functions -----*/
 function setTimer () {
@@ -230,7 +231,7 @@ function setTimer () {
 //            채워넣기는 대상 문자열의 시작(좌측)부터 적용됩니다.
 
 
-function revealAll() { // 모든 셀 열기 (죽었을 때?)
+function revealAll() { 
   board.forEach(function(rowArr) {
     rowArr.forEach(function(cell) {
       cell.reveal();
@@ -412,6 +413,7 @@ function getWinner() {
 
 
 function init() { // map 제작 + 초기 변수 설정
+  attachListeners();
   buildTable();
   board = buildArrays();
   buildCells();
@@ -463,11 +465,14 @@ function render() {
       if (!cell.isBomb && cell.flagged) { // flag 표시가 되었으나 폭탄이 아닌 cell에 대해서...
         var td = document.querySelector(`[data-row="${cell.row}"][data-col="${cell.col}"]`); // 해당 셀의 좌표 td에 담음
         td.innerHTML = wrongBombImage; // 잘못된 폭탄 이미지 넣음
+
       }
     });
+    removeListeners();
   } else if (winner) { // winner라면
     document.getElementById('reset').innerHTML = '<img src=images/cool-face.png>';
     clearInterval(timerId); // interval 종료
+    removeListeners();
   }
 };
 
