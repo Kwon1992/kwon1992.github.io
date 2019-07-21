@@ -1,11 +1,7 @@
-// var sizeLookup = {
-//     '9': {totalBombs: 10, tableWidth: '245px', checker: 0},
-//     '16': {totalBombs: 40, tableWidth: '420px', checker: 1}, <- ez ( 14 * 14 : 40 __ 47.8%)
-//     '30': {totalBombs: 160, tableWidth: '794px', checker: 2} <- nm ( 20%)
-//      난이도를 어떻게 할 것인가?
-//      minesweeper.online - 특별에서 성공률,난이도 측정해줌
-//  NM: 20% //  HD : 3~4%  //  SHD :: 0.05%
-// };
+/* 
+ *
+ *
+ */
 
 
 var mapSize = "";
@@ -18,12 +14,14 @@ var levelSelected = {
 
 var itemSelected = {
   "protect" : false,
-  "predict" : false
+  "showStart" : false,
+  "revealAll" : false
 }; // protect, predict
 
 
 
 document.getElementById('size-btns').addEventListener('click', function(e) { // size-btns을 클릭한 경우... e : 이벤트 발생 객체
+
   targetBtn = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
 
   if(levelSelected["EZ"] || levelSelected["NM"] || levelSelected["HD"]){
@@ -44,6 +42,9 @@ document.getElementById('size-btns').addEventListener('click', function(e) { // 
 
 document.getElementById('item-btns').addEventListener('click', function (e){
   targetBtn = e.target;
+
+  if(targetBtn.childElementCount != 0) return;
+
   targetBtn.style.backgroundColor = targetBtn.style.backgroundColor === "" ? "yellow" : "";
   if(targetBtn.style.backgroundColor === "yellow") {
     itemSelected[targetBtn.id.toString()] = true;

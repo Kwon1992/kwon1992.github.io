@@ -112,8 +112,51 @@ class  Cell {
         
         this.revealed = true;
         // 위의 경우에 해당하지 않는다면 revealed의 값을 true로 바꾼다.
-        if (this.isBomb) return true;
+        if (this.isBomb) {
+            if(sessionStorage.getItem("protect") === "true") {
+                this.revealed = false; 
+                this.flag(); // 버그 : 플래그 잔여 숫자 1 감소 안 함;
+                sessionStorage.setItem("protect", false);
+                sessionStorage.setItem("flag", true);
+                return false;
+            }
+            return true;
+        }
         // 한편 열어본 cell이 폭탄인 경우 true를 return한다.
+        
+        if (this.adjBombs === 0) {
+            var adj = this.getAdjCells();
+            // 이 cell의 인접 cell들을 반환한다.
+            adj.forEach(function(cell){
+                // 각각의 인접하는 cell마다
+                if (!cell.revealed) cell.reveal();
+                // 열리지 않았다면 reveal을 Recursive하게 호출한다.
+            });
+        }
+        // === : type까지 일치하는지 확인한다. 
+        // unidentified == null은 true, unidentified === null은 false
+        // 폭탄도 아니며, 아예 빈칸인 경우(인접 cell에 폭탄이 없는 경우)...
+        return false;
+        //폭탄이 아닌 경우 false를 return한다.
+    }
+
+    veil() {
+        this.revealed = false;
+        // 특정 Cell의 revealed 초기값은 false 이다. (즉, 열리지 않음)
+        // 해당 셀이 열렸고 폭탄이 아니라면 좌클릭/우클릭 시 아무일도 일어나지 않는다.
+        // 위의 경우에 해당하지 않는다면 revealed의 값을 true로 바꾼다.
+        if (this.isBomb) {
+            if(sessionStorage.getItem("protect") === "true") {
+                this.revealed = false; 
+                this.flag(); // 버그 : 플래그 잔여 숫자 1 감소 안 함;
+                sessionStorage.setItem("protect", false);
+                sessionStorage.setItem("flag", true);
+                return false;
+            }
+            return true;
+        }
+        // 한편 열어본 cell이 폭탄인 경우 true를 return한다.
+        
         if (this.adjBombs === 0) {
             var adj = this.getAdjCells();
             // 이 cell의 인접 cell들을 반환한다.

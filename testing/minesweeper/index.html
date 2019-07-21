@@ -23,7 +23,7 @@
 <body class="flex-body">   
     <div>
         <h1>MineSweeper</h1>
-        <div id="size-btns">
+        <div id="size-btns" style="width: auto;">
             <div id="size-btns"><button id="EZ"><img src="images/easy.png"> Easy</button></div> 
             <div id="size-btns"><button id="NM"><img src="images/medium.png"> Medium</button></div> 
             <div id="size-btns"><button id="HD"><img src="images/hard.png"> Hard</button></div>
@@ -34,13 +34,16 @@
         <h2>Select Items</h2>
         <div id="item-btns">
             <div id="item-btns"><button id="protect">PROECT</button></div>
-            <div id="item-btns"><button id="predict">PREDICT</button></div> 
+            <div id="item-btns"><button id="showStart">START PIN</button></div> 
+            <div id="item-btns"><button id="revealAll">REVEAL ALL</button></div> 
         </div>
     </div>
     <br><br><br>
     <div>
         <button id="start-btn" type="button">GAME START</button>
-        <script src="js/mainPage.js"></script>
+        <button id="explain-btn" type="button">HOW TO PLAY</button>
+
     </div>
+    <script src="js/mainPage.js"></script>
 </body>
 </html>
