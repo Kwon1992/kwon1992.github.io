@@ -291,13 +291,22 @@ function revealAll() { // 모든 셀 열기
 };
 
 
-function unveilAll() { // 모든 셀 열기 (아이템 사용 시)
-  console.log("UNVEIL!!!");
+function unveil() { // 모든 셀 열기 (아이템 사용 시)
+
+  
+  var revealNum = Math.floor(sizeLookup[sessionStorage.getItem("level")].size * rowSize / 3);
+  var curVeilNum = 0;
+
   var tdList = Array.from(document.querySelectorAll('[data-row]')); // [data-row]라는 attribute를 가진 모든 DOM을 array로!!
-  tdList.forEach(function(td) {
+
+  tdList.some(function(td) {
+
+
     var rowIdx = parseInt(td.getAttribute('data-row'));
     var colIdx = parseInt(td.getAttribute('data-col'));
     var cell = board[rowIdx][colIdx]; 
+    
+    curVeilNum += 1;
 
     if (cell.isBomb) { // 폭탄이라면
         td.innerHTML = bombImage; // 폭탄 이미지
@@ -306,13 +315,14 @@ function unveilAll() { // 모든 셀 열기 (아이템 사용 시)
         td.textContent = cell.adjBombs; // 글자 담음
     } else { // 아무것도 없는 빈 칸이라면
     }
+
+    return curVeilNum == revealNum;
   });
 };
 
-function veilAll() { // 모든 셀 열기 (아이템 사용 시)
-  console.log("VEIL!!!");
+function veil() { // 모든 셀 열기 (아이템 사용 시)
   var tdList = Array.from(document.querySelectorAll('[data-row]')); // [data-row]라는 attribute를 가진 모든 DOM을 array로!!
-  tdList.forEach(function(td) {
+  tdList.some(function(td) {
     td.innerHTML = "";
     td.textContent = "";
   });
@@ -496,8 +506,8 @@ function useItem() {
   
 
   if(sessionStorage.getItem("revealAll") === "true"){
-      setTimeout(unveilAll,0);
-      setTimeout(veilAll,2000);
+      setTimeout(unveil,0);
+      setTimeout(veil,2000);
   }
 }
 

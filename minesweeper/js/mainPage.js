@@ -24,6 +24,8 @@ document.getElementById('size-btns').addEventListener('click', function(e) { // 
 
   targetBtn = e.target.tagName.toLowerCase() === 'img' ? e.target.parentElement : e.target;
 
+  if(targetBtn.childElementCount != 1) return;
+
   if(levelSelected["EZ"] || levelSelected["NM"] || levelSelected["HD"]){
     if(levelSelected[targetBtn.id.toString()]) {
       targetBtn.style.backgroundColor = "";
