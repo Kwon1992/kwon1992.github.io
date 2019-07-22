@@ -15,7 +15,7 @@
 
 
 /*----- constants -----*/
-
+import { sendTxnForBettingAndUsingItem } from "./Dapp.js";
 
 console.log(sessionStorage);
 
@@ -263,7 +263,6 @@ boardEl.addEventListener('touchend', function(e){
 // 아이템??
 
 document.getElementById('result-btn').addEventListener('click', function() {
-  sessionStorage.clear();
   window.location.href='index.html';
 });
 
@@ -590,11 +589,13 @@ function render() {
       }
     });
 
+
     popUp();
 
   } else if (winner) { // winner라면
     document.getElementById('reset').innerHTML = '<img src=images/cool-face.png>';
     clearInterval(timerId); // interval 종료
+
     popUp();
   }
 

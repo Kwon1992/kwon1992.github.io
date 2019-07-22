@@ -1,5 +1,6 @@
 
 var mapSize = "";
+var itemCost = 0;
 var levelSelected = {
   "EZ": false, 
   "NM": false, 
@@ -45,8 +46,18 @@ document.getElementById('item-btns').addEventListener('click', function (e){
   targetBtn.style.backgroundColor = targetBtn.style.backgroundColor === "" ? "yellow" : "";
   if(targetBtn.style.backgroundColor === "yellow") {
     itemSelected[targetBtn.id.toString()] = true;
+    switch(targetBtn.id){
+      case 'protect': itemCost += 2500; break;
+      case 'showStart': itemCost += 4000; break;
+      case 'revealAll': itemCost += 10000; break;
+    }
   } else {
     itemSelected[targetBtn.id.toString()] = false;
+    switch(targetBtn.id){
+      case 'protect': itemCost -= 2500; break;
+      case 'showStart': itemCost -= 4000; break;
+      case 'revealAll': itemCost -= 10000; break;
+    }
   }
 });
 
@@ -60,38 +71,47 @@ document.getElementById('explain-btn').addEventListener('click', function (e){
 
 
 
-
 $(document).ready(function(){
   $('#start-btn').click(function(e){
+    var bettingTokens = document.getElementById('bettingTokens').value;
+
     if(mapSize === "") {
       console.log("No Level Selected");
       return;
+    } else if(bettingTokens > parseInt(document.getElementById('btTokens').innerText)) {
+        alert("You bet Too much tokens.");
+        return;
+    } else if(itemCost > parseInt(document.getElementById('bmtTokens').innerText)){
+        alert("You cannot buy items.(Not enought Tokens.)");
+        return;
     } else {
-      for (const level in levelSelected) {
-        if (levelSelected.hasOwnProperty(level) && levelSelected[level] ) {
+        sessionStorage.setItem("bettingBTTokens", bettingTokens);
+        sessionStorage.setItem("usedBMTtokens", itemCost);
+
+        for (const level in levelSelected) {
+          if (levelSelected.hasOwnProperty(level) && levelSelected[level] ) {
             sessionStorage.setItem("level", level);
           }
         }
-
+    
         for (const item in itemSelected) {
           if (itemSelected.hasOwnProperty(item)) {
             sessionStorage.setItem(item, itemSelected[item]);
           }
         }
-     
+    }
       // 아이템 구매 시 코인(토큰) 감소 요청 txn 전송
 
       $.ajax({
         type:"get",
         url:"game.html",
         success: function test(a) {
-            $(".flex-body").html(a);
+          $(".flex-body").html(a);
         }
+       });
     });
-    }
-  });
-
 });
+
 
 
   

@@ -19,7 +19,11 @@
     -->
 
 </head>
+<div class="user-info"> <b class="user-info">User Address: </b><span class="user-info" id="user-name"></span><b class="user-info">BT TOKEN: </b>
+    <span class="user-info" id='btTokens'></span> <b class="user-info">BMT TOKEN: </b><span class="user-info" id= bmtTokens>"</span></div> 
+
 <body class="flex-body" style="text-align: center;">   
+    
     <div>
         <h1>MineSweeper</h1>
         <div id="size-btns" style="width: auto;">
@@ -30,20 +34,25 @@
     </div>
     <br>
     <div>
-        <h2>Select Items</h2>
+        <h2>Select Items </h2>
+            (Protect : 2500BMT / Start : 4000 BMT / REVEAL : 10000 BMT)<br>
         <div id="item-btns">
             <div id="item-btns"><button class="item" id="protect">PROECT BOMB</button></div>
             <div id="item-btns"><button class="item" id="showStart">START MARKER</button></div> 
             <div id="item-btns"><button class="item" id="revealAll">REVEAL MAP</button></div> 
         </div>
     </div>
-    <br><br><br>
+    <br>
+    <b>Betting BT tokens: </b><input type='text' id="bettingTokens" placeholder="write integer only.">
+    <br>
+    <!-- <h3>please use landscape mode when you play above the normal level in mobile.</h3> -->
     <div>
         <button id="start-btn" type="button">GAME START</button>
         <button id="explain-btn" type="button">HOW TO PLAY</button>
-
     </div>
+    
     <script src="js/index.js"></script>
+    <script src="js/Dapp.js"></script>
 </body>
 </html>
 
