@@ -58,7 +58,7 @@ contract ButterToken { //ButterToken == GTK
     }
 
     function retrieveTokens(uint256 tokenAmount) public returns (bool) {
-        balance[msg.sender] -= tokenAmount;
+        balances[msg.sender] -= tokenAmount;
         totalTokens += tokenAmount;
         return true;
     }
