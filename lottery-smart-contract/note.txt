@@ -1,0 +1,62 @@
+contracts 폴더 
+ : 모든 contract들을 담는다
+ : Migration.sol이 하는 역할? 스마트 컨트랙트 버젼관리 역할.
+                             그냥 건드리지 않는 것이 좋다.
+
+
+migrations 폴더
+ : 배포 관련 script들을 짜서 담는다.
+ : 자체 컨트랙트 migration 파일을 하나 더 만들어서 
+ : initial_migration.js와 따로 관리하는 것이 좋다.
+
+test 폴더
+ : unit test, integrate test 등을 한다.
+ : Solidity에서는 2가지 test가 존재... (Solidity 자체 내 test, JS를 사용한 외부에서의 test)
+ : Solidity만으로 하는 test는 현재까지 활성화 X.. 주로 JS 활용한 test를 한다.
+
+
+build 폴더
+ : 콘솔에서 truffle complie을 할 경우 build 폴더가 생김.
+ : build 폴더 내부에는 compile한 결과들이 JSON 형식으로 생성된다.
+ : Lottery.json 내의 JSON 정보를 보면 bytecode가 존재하는데 이 bytecode가 blockchain network 상에 올라간다.
+
+
++ 학습내용
+1. Ethereum은 사용하는 단위가 크므로 기본적으로 Big Number를 사용한다.
+2. Big Number Library를 사용하거나 parameter로 String값을 넣으면 geth단에서 
+   String을 Big Number로 casting하여 사용하는 방식을 주로 취한다.
+
+
+
+<<< Lottery Rules >>>
+1. +3번째 블록해시의 첫 두 글자를 맞추는 게임 '0x??....'
+ a) 유저가 던진 트랜잭션이 들어가는 블록에서의 +3번쨰 블록해시 값과 비교
+
+2. 팟 머니
+ a) 결과가 나왔을 때만 유저가 보낸 돈을 팟머니에 넣는다. (0.005 ETH = 10 *** 15 wei)
+ b) 여러 명이 맞추었을 때는 가장 먼저 맞춘 사람이 팟머니를 가져간다.
+ c) 두 글자 중 하나만 맞추었을 때는 보낸 돈을 돌려준다.
+ d) 결과값을 검증할 수 없을 때에는 보낸 돈을 돌려준다.
+
+=====
+저장해야할 데이터?
+1. 유저가 입력한 두 글자 (1byte)
+2. 유저의 계좌주소 (Account)
+3. 유저가 베팅했을 때의 블록번호(block Number)
+
+
+
+
+Command
+
+1) truffle compile :: 컴파일 실시
+2) truffle migrate :: migrations 폴더 내 파일에 따른 deploy(migration) 실시.
+                      정상적인 migration을 위해서는 truffle-config.js 에서 어디로 deploy할지 적어줘야함.
+                      --reset option을 통해 아예 새로 migrate 가능... migrate할때마다 --reset 해주자!
+3) truffle test [path] :: test폴더 내의 파일들을 이용해  테스팅한다.
+                          만약 [path] 설정 시 해당 path에 해당하는 파일만 테스트 할 수 있다.
+===========================
+
+찾아볼것?
+
+javascript의 async / await / promise / 람다식?
