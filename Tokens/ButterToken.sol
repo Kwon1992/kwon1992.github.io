@@ -57,6 +57,12 @@ contract ButterToken { //ButterToken == GTK
         totalTokens -= tokensToBuy;
     }
 
+    function retrieveTokens(uint256 tokenAmount) public returns (bool) {
+        balances[msg.sender] -= tokenAmount;
+        totalTokens += tokenAmount;
+        return true;
+    }
+
 
     function transfer(address to, uint256 value) external returns (bool) {
         require(balances[msg.sender] >= value); // need more balance than value.
