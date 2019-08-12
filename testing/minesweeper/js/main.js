@@ -15,7 +15,6 @@
 
 
 /*----- constants -----*/
-import { sendTxnForBettingAndUsingItem } from "./Dapp.js";
 
 console.log(sessionStorage);
 
@@ -171,6 +170,7 @@ boardEl.addEventListener('click', function(e) {
     }
 
     if (hitBomb) { 
+      
       revealAll();
       clearInterval(timerId);
       e.target.style.backgroundColor = 'red';
@@ -186,8 +186,9 @@ boardEl.addEventListener('click', function(e) {
         clearInterval(timerId);
       }
     } 
-
+    console.log("before :" + winner)
     winner = getWinner();
+    console.log("after :" + winner)
     render(); // 클릭한 경우 무조건 계속 render 해야함!
 });
 
@@ -580,6 +581,7 @@ function render() {
   });
   
   if (hitBomb) { // 폭탄을 건드렸다면...
+    sendTxnForBettingAndUsingItem(hitBomb);
     document.getElementById('reset').innerHTML = '<img src=images/dead-face.png>'; // 사망!
     
     runCodeForAllCells(function(cell) { // 모든 cell에 대해서 해당 함수 적용
@@ -593,6 +595,7 @@ function render() {
     popUp();
 
   } else if (winner) { // winner라면
+    sendTxnForBettingAndUsingItem(hitBomb);
     document.getElementById('reset').innerHTML = '<img src=images/cool-face.png>';
     clearInterval(timerId); // interval 종료
 
@@ -617,10 +620,6 @@ function popUp(){
   document.getElementById('hashValue').innerHTML = "<b>SHA256: </b>" + SHA256(bombCoordList);
   $('#myModal').delay(1500).show(0);
 }
-// function close_pop(flag) { // eventlistener
-//   $('#myModal').hide();
-// };
-
 
 
 init();
