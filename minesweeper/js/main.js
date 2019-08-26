@@ -505,7 +505,7 @@ function useItem() {
 
   if(sessionStorage.getItem("revealAll") === "true"){
       setTimeout(unveil,0);
-      setTimeout(veil,2000);
+      setTimeout(veil,500);
   }
 }
 
