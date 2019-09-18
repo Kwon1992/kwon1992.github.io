@@ -87,7 +87,7 @@ button:hover {
 #footer {
     text-align: center;
     position: fixed;
-    height: 36px;
+    height: auto;
     background-color: #BFBFBF;
     bottom: 0px;
     left: 0px;
@@ -141,6 +141,11 @@ button:hover {
     text-align: center;
     width: 150px;
 } */
+
+.user-info {
+    display:inline-block;
+    margin:5px;
+}
 #item-btns {
     display: inline-block;
     
@@ -158,14 +163,14 @@ button:hover {
 #start-btn {
     text-align: center;
     display:inline-block;
-    max-width: 450%;
+    max-width: 50%;
     width:auto;
 }
 
 #explain-btn {
     text-align: center;
     display:inline-block;
-    max-width: 45%;
+    max-width:50%;
     width:auto;
 }
 
@@ -272,5 +277,10 @@ td {
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 30%; /* Could be more or less, depending on screen size */                          
+    width: 70%; /* Could be more or less, depending on screen size */                          
+}
+
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
 }

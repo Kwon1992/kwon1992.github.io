@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Minesweeper</title>
+    <!-- <link rel="stylesheet" href="./js/bootstrap-3.3.2-dist/css/bootstrap.css"> -->
     <link rel="stylesheet" href="css/main.css">
+    
     <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -17,9 +19,12 @@
     script 명령을 실행함.
     참고사이트 : www.codefactory.net/10364
     -->
-
 </head>
+<div class="user-info"> <b class="user-info">User Address: </b><span class="user-info" id="user-name"></span><b class="user-info">Magnet: </b>
+    <span class="user-info" id='MagnetTokens'></span> <b class="user-info">Magnet Field: </b><span class="user-info" id= MagnetFieldTokens></span></div> 
+
 <body class="flex-body" style="text-align: center;">   
+    
     <div>
         <h1>MineSweeper</h1>
         <div id="size-btns" style="width: auto;">
@@ -30,47 +35,64 @@
     </div>
     <br>
     <div>
-        <h2>Select Items</h2>
+        <h2>Select Items </h2>
+            (Protect : 10000 / Start : 20000  / REVEAL : 30000 (Unit: MagnetField)<br>
         <div id="item-btns">
             <div id="item-btns"><button class="item" id="protect">PROECT BOMB</button></div>
             <div id="item-btns"><button class="item" id="showStart">START MARKER</button></div> 
             <div id="item-btns"><button class="item" id="revealAll">REVEAL MAP</button></div> 
         </div>
     </div>
-    <h3>please use landscape mode when you play above the normal level in mobile.</h3>
+    <br>
+    
+    <br>
     <div>
         <button id="start-btn" type="button">GAME START</button>
-        <button id="explain-btn" type="button">HOW TO PLAY</button>
+        <button id="explain-btn" type="button" >HOW TO PLAY</button>
     </div>
-    
-    <script src="js/index.js"></script>
+    <br><br><br>
+    <div>
+            <h2>Recent 5 Games History </h2>
+            <table class="center" id = "history-table">
+            </table>
+    </div>
+    <br><br><br>
+
+    <b>FOR TEST____ BUY MAGNETFIELD</b><button id="magnetField-btn" type="button" >MAGNETFIELD</button><br /><br /><br />
+    <b>ETH to Magnet: </b><input type='text' id="buyingTokens" style="width:200px" placeholder="Write the amount of magnet">  <button id="purchase-btn" type="button" >BUY</button><br />
+    <b>Change MagnetField to Magnet(Minimum 50000 MagnetField): </b><input type='text' id="exchangeTokens"style="width:200px" placeholder="Write the amount of MangetField">  <button id="exchange-btn" type="button" >EXCHANGE</button><br />
+    <b>Magnet to ETH: </b><input type='text' id="sellingTokens" style="width:200px" placeholder="Write the amount of magnet">  <button id="sell-btn" type="button" >SELL</button><br />
+
+
 </body>
 </html>
 
 
 <div id="myModal" class="modal">
-        <div class="modal-content">
-            <h1 style="text-align: center;">HOW TO PLAY</h1>
-            <p style="line-height: 1.5;">Left Click to open the cell </p>
-            <p style="line-height: 1.5;">If you open a bomb, you will lose the game. </p>
-            <p style="line-height: 1.5;">Use flag properly to WIN the game. </p>
-            <p style="line-height: 1.5;">Right Click(Long Press for Mobile) to mark a flag.</p>
-            <br><br>
-            <h1 style="text-align: center;">ITEM DESCRIPTION</h1>
-            <p style="line-height: 1.5;"><b>Protect</b> </p>
-            <p style="line-height: 1.5;">When you click the cell which has a bomb, it will protect you from defeat and mark a flag.</p>
-            <p style="line-height: 1.5;"><b>Start Pin</b> </p>
-            <p style="line-height: 1.5;">Show only one cell which does not a bomb before the game begin. </p>
-            <p style="line-height: 1.5;">If you reveal another cell, the mark will be disappeared.</p>
-            <p style="line-height: 1.5;"><b>Reveal MAP</b> </p>
-            <p style="line-height: 1.5;">Show 1/3 of map for 2 seconds. </p>
+    <div class="modal-content">
+        <h1 style="text-align: center;">HOW TO PLAY</h1>
+        <p style="line-height: 1.5;">Left Click to open the cell </p>
+        <p style="line-height: 1.5;">If you open a bomb, you will lose the game. </p>
+        <p style="line-height: 1.5;">Use flag properly to WIN the game. </p>
+        <p style="line-height: 1.5;">Right Click(Long Press for Mobile) to mark a flag.</p>
+        <br><br>
+        <h1 style="text-align: center;">ITEM DESCRIPTION</h1>
+        <p style="line-height: 1.5;"><b>Protect</b> </p>
+        <p style="line-height: 1.5;">When you click the cell which has a bomb, it will protect you from defeat and mark a flag.</p>
+        <p style="line-height: 1.5;"><b>Start Pin</b> </p>
+        <p style="line-height: 1.5;">Show only one cell which does not a bomb before the game begin. </p>
+        <p style="line-height: 1.5;">If you reveal another cell, the mark will be disappeared.</p>
+        <p style="line-height: 1.5;"><b>Reveal MAP</b> </p>
+        <p style="line-height: 1.5;">Show 1/5 of map for 0.5 seconds. </p>
+
+
+        <p><br /></p>
+        <div id="close-btn" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" >CLOSE</div>
+    </div>
+        <input class="textBox" type="text" id="" style="display: none" />
+</div>
     
 
-            <p><br /></p>
-            <div id="close-btn" style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;" >CLOSE</div>
-            </div>
-            <input class="textBox" type="text" id="" style="display: none" />
-        </div>
-    </div>
-    
-    </html>
+<script src="js/index.js"></script>
+
+</html>

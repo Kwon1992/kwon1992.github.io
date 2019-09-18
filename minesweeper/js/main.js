@@ -16,7 +16,7 @@
 
 /*----- constants -----*/
 
-
+console.log("IN GAME PAGE");
 console.log(sessionStorage);
 
 var bombImage = '<img src="images/bomb.png">';
@@ -29,11 +29,7 @@ var sizeLookup = {
   'EZ': {size:13, totalBombs:40, tableWidth: "338px"}, // 45.15%
   'NM': {size:20, totalBombs:70, tableWidth: "520px"}, // 18.70%
   'HD': {size:25, totalBombs:100, tableWidth: "650px"}, // 2.35%
-  'SHD': {size:30, totalBombs:140, tableWidth: "780px"}, // 0.0086% - 구현 예정
-
   //row는 15로 고정!
-
-  'LUCK': {size:40, totalBombs:1599}, // PUSH YOUR LUCK! 0.0006% - 따로 구현 예정!
 };
 var colors = [ // 각각 폭탄 개수마다 숫자의 색을 바꾸기 위한 리스트
   '',
@@ -60,8 +56,7 @@ const predict = document.getElementById("item_predict");
 
 var board;
 var bombCount;
-var bombCoordList = "";
-var SHA256_value;
+var gameSHA;
 
 // bomb var
 var winner;
@@ -86,7 +81,19 @@ var startCell = null;
 var boardEl = document.getElementById('board'); // html의 table 가져옴
 
 
-
+window.addEventListener('load', function() {
+  //Assign Metamask to window.web3 var
+  if (typeof web3 !== 'undefined') {
+    window.web3 = new Web3(web3.currentProvider);
+  } else {
+    console.log('No web3? You should consider trying MetaMask!')
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8080"));
+  }
+  // Now you can start your app & access web3 freely:
+  // startApp()?
+  console.log(web3);
+  console.log(sessionStorage);
+});
 
 
 /*----- event listeners -----*/
@@ -166,13 +173,17 @@ boardEl.addEventListener('click', function(e) {
     hitBomb = cell.reveal(); // Cell을 열었을 때 폭탄 여부에 따른 true, false 반환
     
     if(sessionStorage.getItem("flag") === "true") {
-      bombCount -= 1;
+      if(bombCount !== 0) {
+        bombCount -= 1;
+      }
+
       sessionStorage.removeItem("flag");
     }
 
     if (hitBomb) { 
       revealAll();
       clearInterval(timerId);
+      
       e.target.style.backgroundColor = 'red';
     }
   } else if(clickedEl.classList.contains('revealed')){
@@ -188,6 +199,7 @@ boardEl.addEventListener('click', function(e) {
     } 
 
     winner = getWinner();
+    console.log(`when click : ${winner}`)
     render(); // 클릭한 경우 무조건 계속 render 해야함!
 });
 
@@ -219,6 +231,7 @@ boardEl.addEventListener('contextmenu',function(e){
     }
   }
   winner = getWinner();
+  console.log(`when contextmenu : ${winner}`)
   render(); // 클릭한 경우 무조건 계속 render 해야함!
 
 });
@@ -257,6 +270,7 @@ boardEl.addEventListener('touchend', function(e){
       }
     }
     winner = getWinner();
+    console.log(`when touch-end : ${winner}`)
     render(); // 클릭한 경우 무조건 계속 render 해야함!
   }
 });
@@ -265,6 +279,7 @@ boardEl.addEventListener('touchend', function(e){
 document.getElementById('result-btn').addEventListener('click', function() {
   sessionStorage.clear();
   window.location.href='index.html';
+
 });
 
 
@@ -306,7 +321,7 @@ function revealAll() { // 모든 셀 열기
 function unveil() { // 모든 셀 열기 (아이템 사용 시)
 
   
-  var revealNum = Math.floor(sizeLookup[sessionStorage.getItem("level")].size * rowSize / 3);
+  var revealNum = Math.floor(sizeLookup[sessionStorage.getItem("level")].size * rowSize / 5);
   var curVeilNum = 0;
 
   var tdList = Array.from(document.querySelectorAll('[data-row]')); // [data-row]라는 attribute를 가진 모든 DOM을 array로!!
@@ -342,8 +357,8 @@ function veil() { // 모든 셀 열기 (아이템 사용 시)
 
 function buildTable() { // core Function #1
 
-  // <tr> : (가로_행 추가) <td> : (세로_열 추가) <tr> <td></td> <td></td> </tr> : 1행 2열짜리 테이블
-  //<div id="folder1"><a href="https://github.com/nickarocho/minesweeper/blob/master/readme.md" target="blank">Read Me </a></div>
+  // <tr> : (가로_행 추가) <td> : (세로_열 추가) <tr>i <td></td> <td></td> </tr> : 1행 2열짜리 테이블
+  //<div id="folder1"><a href="https://github.com/nckarocho/minesweeper/blob/master/readme.md" target="blank">Read Me </a></div>
   var topRow = `
   <tr>
     <td class="menu" id="window-title-bar" colspan="${colSize}">
@@ -464,14 +479,13 @@ function getBombCount() {
 
 function  addBombs() { // 랜덤하게 폭탄 설치 core Function #4 _ updating...
   var currentTotalBombs = sizeLookup[level].totalBombs;
+
   while (currentTotalBombs !== 0) {
     var row = Math.floor(Math.random() * rowSize);
     var col = Math.floor(Math.random() * colSize);
     var currentCell = board[row][col];
 
     if (!currentCell.isBomb){
-      if(currentTotalBombs === sizeLookup[level].totalBombs) {bombCoordList  += "["+row+","+col+"]"}
-      else {bombCoordList  += ",["+row+","+col+"]"}
       // 추가된 폭탄위치를 저장하는 위치 나열하는 string 제작
 
       currentCell.isBomb = true;
@@ -494,7 +508,7 @@ function useItem() {
       var col = Math.floor(Math.random() * colSize);
       startCell = board[row][col];
 
-      if (!startCell.isBomb){
+      if (!startCell.isBomb && startCell.row >= 3){
         var td = document.querySelector(`[data-row="${startCell.row}"][data-col="${startCell.col}"]`);
         td.style.backgroundColor = "skyblue"
         break;
@@ -502,7 +516,6 @@ function useItem() {
      }
   }
   
-
   if(sessionStorage.getItem("revealAll") === "true"){
       setTimeout(unveil,0);
       setTimeout(veil,500);
@@ -520,7 +533,6 @@ function getWinner() {
   for (var row = 0; row<board.length; row++) {
     for (var col = 0; col<board[0].length; col++) {
       var cell = board[row][col];
-      // console.log("cell row: "+ cell.row + ", cell col: "+cell.col+", revealed: "+cell.revealed + ", isbomb: "+cell.isBomb);
       if (!cell.revealed && !cell.isBomb) return false;
     }
   } 
@@ -582,20 +594,56 @@ function render() {
   
   if (hitBomb) { // 폭탄을 건드렸다면...
     document.getElementById('reset').innerHTML = '<img src=images/dead-face.png>'; // 사망!
-    
-    runCodeForAllCells(function(cell) { // 모든 cell에 대해서 해당 함수 적용
-      if (!cell.isBomb && cell.flagged) { // flag 표시가 되었으나 폭탄이 아닌 cell에 대해서...
-        var td = document.querySelector(`[data-row="${cell.row}"][data-col="${cell.col}"]`); // 해당 셀의 좌표 td에 담음
-        td.innerHTML = wrongBombImage; // 잘못된 폭탄 이미지 넣음
-      }
-    });
+    console.log(`winner : ${winner}`);
+    console.log(`hitBomb : ${hitBomb}`);
+    console.log(`winner && hitBom : ${(winner && !hitBomb)}`);
+    alert("Accept the Transaction if you want to get rewards!");
 
-    popUp();
+    gameController.getTotalGameCount({from:accountAddr}, function(err, res) {
+      var gameSHA = web3.sha3(mapSize + accountAddr.toString() + res.toNumber());
+  
+      gameController.endGame(gameSHA, (winner && !hitBomb) , function(err,res) {
+        if(err) {
+          console.log(err);
+        }
+        console.log(res);
+        runCodeForAllCells(function(cell) { // 모든 cell에 대해서 해당 함수 적용
+          if (!cell.isBomb && cell.flagged) { // flag 표시가 되었으나 폭탄이 아닌 cell에 대해서...
+            var td = document.querySelector(`[data-row="${cell.row}"][data-col="${cell.col}"]`); // 해당 셀의 좌표 td에 담음
+            td.innerHTML = wrongBombImage; // 잘못된 폭탄 이미지 넣음
+          }
+        });
+        document.getElementById('hashValue').innerHTML = res;
+        $('#myModal').delay(1500).show(0);
+      })
+    })
 
   } else if (winner) { // winner라면
     document.getElementById('reset').innerHTML = '<img src=images/cool-face.png>';
+    
     clearInterval(timerId); // interval 종료
-    popUp();
+
+    console.log(`winner : ${winner}`);
+    console.log(`hitBomb : ${hitBomb}`);
+    console.log(` winner && hitBom : ${(winner && !hitBomb)}`);
+
+    alert("Accept the Transaction if you want to get rewards!");
+
+    gameController.getTotalGameCount({from:accountAddr}, function(err, res) {
+      var gameSHA = web3.sha3(mapSize + accountAddr.toString() + res.toNumber());
+      console.log("AFTER GAME START __ GAME ID : " + gameSHA)
+      console.log(gameSHA)
+      gameController.endGame(gameSHA, (winner && !hitBomb) , function(err,res) {
+        if(err) {
+          console.log(err);
+          
+        }
+        console.log(res);
+        document.getElementById('hashValue').innerHTML = res;
+        $('#myModal').delay(1500).show(0);
+      })
+    })
+
   }
 
   
@@ -609,16 +657,6 @@ function runCodeForAllCells(cb) {
     });
   });
 }
-
-
-function popUp(){
-  document.getElementById('bomb-coord').innerHTML = bombCoordList;
-  document.getElementById('hashValue').innerHTML = "<b>SHA256: </b>" + SHA256(bombCoordList);
-  $('#myModal').delay(1500).show(0);
-}
-// function close_pop(flag) { // eventlistener
-//   $('#myModal').hide();
-// };
 
 
 
@@ -640,107 +678,6 @@ render();
 *  Original code by Angel Marin, Paul Johnston.
 *
 **/
-function SHA256(s){
-    var chrsz   = 8;
-    var hexcase = 0;
-  
-    function safe_add (x, y) {
-        var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-        var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-        return (msw << 16) | (lsw & 0xFFFF);
-    }
-  
-    function S (X, n) { return ( X >>> n ) | (X << (32 - n)); }
-    function R (X, n) { return ( X >>> n ); }
-    function Ch(x, y, z) { return ((x & y) ^ ((~x) & z)); }
-    function Maj(x, y, z) { return ((x & y) ^ (x & z) ^ (y & z)); }
-    function Sigma0256(x) { return (S(x, 2) ^ S(x, 13) ^ S(x, 22)); }
-    function Sigma1256(x) { return (S(x, 6) ^ S(x, 11) ^ S(x, 25)); }
-    function Gamma0256(x) { return (S(x, 7) ^ S(x, 18) ^ R(x, 3)); }
-    function Gamma1256(x) { return (S(x, 17) ^ S(x, 19) ^ R(x, 10)); }
-  
-    function core_sha256 (m, l) {
-        var K = new Array(0x428A2F98, 0x71374491, 0xB5C0FBCF, 0xE9B5DBA5, 0x3956C25B, 0x59F111F1, 0x923F82A4, 0xAB1C5ED5, 0xD807AA98, 0x12835B01, 0x243185BE, 0x550C7DC3, 0x72BE5D74, 0x80DEB1FE, 0x9BDC06A7, 0xC19BF174, 0xE49B69C1, 0xEFBE4786, 0xFC19DC6, 0x240CA1CC, 0x2DE92C6F, 0x4A7484AA, 0x5CB0A9DC, 0x76F988DA, 0x983E5152, 0xA831C66D, 0xB00327C8, 0xBF597FC7, 0xC6E00BF3, 0xD5A79147, 0x6CA6351, 0x14292967, 0x27B70A85, 0x2E1B2138, 0x4D2C6DFC, 0x53380D13, 0x650A7354, 0x766A0ABB, 0x81C2C92E, 0x92722C85, 0xA2BFE8A1, 0xA81A664B, 0xC24B8B70, 0xC76C51A3, 0xD192E819, 0xD6990624, 0xF40E3585, 0x106AA070, 0x19A4C116, 0x1E376C08, 0x2748774C, 0x34B0BCB5, 0x391C0CB3, 0x4ED8AA4A, 0x5B9CCA4F, 0x682E6FF3, 0x748F82EE, 0x78A5636F, 0x84C87814, 0x8CC70208, 0x90BEFFFA, 0xA4506CEB, 0xBEF9A3F7, 0xC67178F2);
-        var HASH = new Array(0x6A09E667, 0xBB67AE85, 0x3C6EF372, 0xA54FF53A, 0x510E527F, 0x9B05688C, 0x1F83D9AB, 0x5BE0CD19);
-        var W = new Array(64);
-        var a, b, c, d, e, f, g, h, i, j;
-        var T1, T2;
-        m[l >> 5] |= 0x80 << (24 - l % 32);
-        m[((l + 64 >> 9) << 4) + 15] = l;
-        for ( var i = 0; i<m.length; i+=16 ) {
-            a = HASH[0];
-            b = HASH[1];
-            c = HASH[2];
-            d = HASH[3];
-            e = HASH[4];
-            f = HASH[5];
-            g = HASH[6];
-            h = HASH[7];
-            for ( var j = 0; j<64; j++) {
-                if (j < 16) W[j] = m[j + i];
-                else W[j] = safe_add(safe_add(safe_add(Gamma1256(W[j - 2]), W[j - 7]), Gamma0256(W[j - 15])), W[j - 16]);
-                T1 = safe_add(safe_add(safe_add(safe_add(h, Sigma1256(e)), Ch(e, f, g)), K[j]), W[j]);
-                T2 = safe_add(Sigma0256(a), Maj(a, b, c));
-                h = g;
-                g = f;
-                f = e;
-                e = safe_add(d, T1);
-                d = c;
-                c = b;
-                b = a;
-                a = safe_add(T1, T2);
-            }
-            HASH[0] = safe_add(a, HASH[0]);
-            HASH[1] = safe_add(b, HASH[1]);
-            HASH[2] = safe_add(c, HASH[2]);
-            HASH[3] = safe_add(d, HASH[3]);
-            HASH[4] = safe_add(e, HASH[4]);
-            HASH[5] = safe_add(f, HASH[5]);
-            HASH[6] = safe_add(g, HASH[6]);
-            HASH[7] = safe_add(h, HASH[7]);
-        }
-        return HASH;
-    }
-    function str2binb (str) {
-        var bin = Array();
-        var mask = (1 << chrsz) - 1;
-        for(var i = 0; i < str.length * chrsz; i += chrsz) {
-            bin[i>>5] |= (str.charCodeAt(i / chrsz) & mask) << (24 - i%32);
-        }
-        return bin;
-    }
-    function Utf8Encode(string) {
-        string = string.replace(/\r\n/g,"\n");
-        var utftext = "";
-        for (var n = 0; n < string.length; n++) {
-            var c = string.charCodeAt(n);
-            if (c < 128) {
-                utftext += String.fromCharCode(c);
-            }
-            else if((c > 127) && (c < 2048)) {
-                utftext += String.fromCharCode((c >> 6) | 192);
-                utftext += String.fromCharCode((c & 63) | 128);
-            }
-            else {
-                utftext += String.fromCharCode((c >> 12) | 224);
-                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-                utftext += String.fromCharCode((c & 63) | 128);
-            }
-        }
-        return utftext;
-    }
-    function binb2hex (binarray) {
-        var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
-        var str = "";
-        for(var i = 0; i < binarray.length * 4; i++) {
-            str += hex_tab.charAt((binarray[i>>2] >> ((3 - i%4)*8+4)) & 0xF) +
-            hex_tab.charAt((binarray[i>>2] >> ((3 - i%4)*8  )) & 0xF);
-        }
-        return str;
-    }
-    s = Utf8Encode(s);
-    return binb2hex(core_sha256(str2binb(s), s.length * chrsz));
-}
 
 function copyToClipboard(element) {
   var $temp = $("<input>");
