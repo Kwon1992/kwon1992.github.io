@@ -614,7 +614,7 @@ function render() {
           }
         });
         document.getElementById('hashValue').innerHTML = res;
-        $('#myModal').delay(1500).show(0);
+        $('#myModal').delay(5000).show(0);
       })
     })
 
@@ -640,7 +640,7 @@ function render() {
         }
         console.log(res);
         document.getElementById('hashValue').innerHTML = res;
-        $('#myModal').delay(1500).show(0);
+        $('#myModal').delay(3000).show(0);
       })
     })
 

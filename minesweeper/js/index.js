@@ -268,10 +268,14 @@ document.getElementById('start-btn').addEventListener('click', function() {
           type:"get",
           url:"game.html",
           success: function test(a) {
-            $(".flex-body").html(a);
+            $('#timerBox').show();
+            setInterval(function() { makeTimer(); }, 1000);
+            setTimeout(function() {
+              $(".flex-body").html(a);
+            }, 10000);
           }
          });
-        //  console.log(res); // txn reciept hash?
+         console.log(res); // txn reciept hash?
       });
     })
   }
@@ -333,7 +337,15 @@ function convertToDifficulty(_asciiCodes) {
 }
 
 
-
+var seconds = 10;
+function makeTimer() {
+      seconds--;
+      console.log(seconds);
+      $("#seconds").html(seconds);
+      if(seconds < 0) {
+        clearInterval();
+      }
+}
 
 
 
